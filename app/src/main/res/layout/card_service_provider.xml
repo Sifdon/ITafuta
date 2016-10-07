@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/provider_card"
+    android:layout_width="match_parent"
+    android:layout_height="105dp"
+    card_view:cardCornerRadius="0dp"
+    card_view:cardBackgroundColor="@color/provider_bg"
+    card_view:cardElevation="2dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="0dp">
+
+            <ImageView
+                android:id="@+id/imgProviderImage"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/displayprofimage"
+                android:contentDescription="@string/provider_image_info"
+                android:padding="0dp"/>
+            <LinearLayout
+                android:id="@+id/occupation_section"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin1"
+                android:layout_toRightOf="@+id/imgProviderImage"
+                android:orientation="vertical"
+                android:layout_toEndOf="@+id/imgProviderImage">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Occupation: "
+                    android:textStyle="bold"
+                    android:textSize="13sp"/>
+                <TextView
+                    android:id="@+id/txtProviderInfo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/provider_text"
+                    android:textSize="13sp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Location: "
+                    android:textStyle="bold"
+                    android:textSize="13sp" />
+                <TextView
+                    android:id="@+id/txtProviderInfoLocation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/provider_text_location"
+                    android:textSize="13sp"/>
+
+
+            </LinearLayout>
+
+
+            <!--<RelativeLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_toRightOf="@+id/provider_image"-->
+                <!--android:layout_below="@id/txt_provider_info">-->
+
+                <!--<TextView-->
+                    <!--android:id="@+id/lorem"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="Lorem"-->
+                    <!--android:layout_weight:"0.5"/>-->
+
+                <!--<TextView-->
+                    <!--android:id="@+id/ipsum"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="Ipsum"-->
+                    <!--android:gravity="right"-->
+                    <!--android:layout_toRightOf="@+id/lorem"/>
+
+            </RelativeLayout>-->
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/imgProviderImage"
+                android:layout_toRightOf="@+id/imgProviderImage"
+                android:layout_below="@id/occupation_section" >
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+
+                android:paddingLeft="@dimen/prov_card_padding_top"
+                android:paddingRight="@dimen/prov_card_padding_top"
+                android:paddingBottom="@dimen/activity_horizontal_margin1"
+                android:baselineAligned="false">
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent">
+                    <RatingBar
+                        android:id="@+id/ratingProvider"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:numStars="5"
+                        android:rating="2"
+                        android:scaleX="1"
+                        android:scaleY="1.5"
+                        style="?android:attr/ratingBarStyleSmall"
+                        android:theme="@style/RatingBar"
+                        android:gravity="bottom"/>
+
+
+                </RelativeLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2">
+
+                    <TextView
+                        android:id="@+id/txtProviderName"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:text="Lorem"
+                        android:textStyle="bold"
+                        android:layout_weight="3"
+                        android:gravity="center_horizontal"
+                        android:textSize="@dimen/prov_card_text_big"/>
+                    <TextView
+                        android:id="@+id/txtFavCount"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:text="Ipsum"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/prov_card_text_big"/>
+                </LinearLayout>
+            </LinearLayout>
+            </RelativeLayout>
+
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+<!--</LinearLayout>-->

@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "250769740102",
+    "firebase_url": "https://natafuta-89d25.firebaseio.com",
+    "project_id": "natafuta-89d25",
+    "storage_bucket": "natafuta-89d25.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:250769740102:android:f590c997e6260ebf",
+        "android_client_info": {
+          "package_name": "com.itafuta"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "250769740102-1cnj51r6midd65soq6ikk6472eus3j0a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAzWnuSGGI3uZgIcSSGKjOzf1MU850sonc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

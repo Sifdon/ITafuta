@@ -1,0 +1,20 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="nav_header_vertical_spacing">16dp</dimen>
+    <dimen name="nav_header_height">160dp</dimen>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_horizontal_margin1">5dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="splash_text">40sp</dimen>
+
+    <dimen name="prov_card_padding_top">5dp</dimen>
+    <dimen name="prov_card_padding_bottom">5dp</dimen>
+    <dimen name="prov_card_text_small">18sp</dimen>
+    <dimen name="prov_card_text_big">20sp</dimen>
+    <dimen name="app_bar_height">180dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
+
+
+</resources>

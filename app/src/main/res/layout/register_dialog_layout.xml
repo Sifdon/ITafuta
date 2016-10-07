@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--android:orientation="vertical" android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent">-->
+
+<!--</LinearLayout>-->
+<!--<?xml version="1.0" encoding="utf-8"?>-->
+<com.emmasuzuki.easyform.EasyForm xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/activity_horizontal_margin"
+    android:layout_marginBottom="@dimen/activity_horizontal_margin"
+    android:paddingBottom="@dimen/activity_horizontal_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    app:submitButton="@+id/submit_button">
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <com.emmasuzuki.easyform.EasyTextInputLayout
+        android:id="@+id/empty_check_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter User Name"
+        app:errorMessage="@string/error_message_empty"
+        app:errorType="empty" />
+
+    <com.emmasuzuki.easyform.EasyTextInputLayout
+        android:id="@+id/digit_check_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/empty_check_input"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:hint="Your Contact"
+        app:errorMessage="@string/error_message_digit"
+        app:regexPattern="[0-9]+" />
+    <CheckBox android:id="@+id/checkbox_carpetcleaning"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:layout_below="@id/digit_check_input"
+        android:text="Electrician"
+        android:onClick="onCheckboxClicked"/>
+    <CheckBox android:id="@+id/checkbox_carpenter"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:layout_below="@id/checkbox_carpetcleaning"
+        android:text="Carpenter"
+        android:onClick="onCheckboxClicked"/>
+        <CheckBox android:id="@+id/checkbox_mamanguo"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:layout_below="@id/checkbox_carpenter"
+            android:text="Mama Nguo"
+            android:onClick="onCheckboxClicked"/>
+        <CheckBox android:id="@+id/checkbox_mechanic"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:layout_below="@id/checkbox_mamanguo"
+            android:text="Gardener/Grass Cutting"
+            android:onClick="onCheckboxClicked"/>
+        <CheckBox android:id="@+id/checkbox_houseagents"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:layout_below="@id/checkbox_mechanic"
+        android:text="House Agents"
+        android:onClick="onCheckboxClicked"/>
+        <CheckBox android:id="@+id/checkbox_mover"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:layout_below="@id/checkbox_houseagents"
+            android:text="Mover/Canter/Pick-up"
+            android:onClick="onCheckboxClicked"/>
+        <CheckBox android:id="@+id/checkbox_painter"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:layout_below="@id/checkbox_mover"
+            android:text="Painter"
+            android:onClick="onCheckboxClicked"/>
+        <CheckBox android:id="@+id/checkbox_plumber"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:layout_below="@id/checkbox_painter"
+            android:text="Plumber"
+            android:onClick="onCheckboxClicked"/>
+        <CheckBox android:id="@+id/checkbox_waterdelivery"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:layout_below="@id/checkbox_plumber"
+            android:text="Water Delivery Lorry"
+            android:onClick="onCheckboxClicked"/>
+        <CheckBox android:id="@+id/checkbox_garbagecollectors"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:layout_below="@id/checkbox_waterdelivery"
+            android:text="Gabage Collector"
+            android:onClick="onCheckboxClicked"/>
+
+
+        <Spinner
+            android:id="@+id/spinnerPlacesRegistration"
+            android:layout_below="@+id/checkbox_garbagecollectors"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/places_list"
+            android:prompt="@string/prompt_zone"/>
+
+        <Button
+            android:id="@+id/btnUploadImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:layout_below="@id/spinnerPlacesRegistration"
+            android:text="Upload Photo"/>
+
+        <ImageView
+            android:id="@+id/imgLoadedImage"
+            android:layout_below="@+id/btnUploadImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/btn_submit_registration"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:layout_below="@id/imgLoadedImage"
+        android:background="@color/colorAccent"
+        android:text="SUBMIT"
+        android:textColor="@android:color/white" />
+    </RelativeLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+
+</com.emmasuzuki.easyform.EasyForm>

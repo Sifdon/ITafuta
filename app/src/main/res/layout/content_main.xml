@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/activity_horizontal_margin1"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.itafuta.MainActivity"
+    tools:showIn="@layout/app_bar_main" >
+
+    <!--<TextView-->
+        <!--android:id="@+id/wazimu"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="Hello World!" />-->
+
+
+
+
+        <FrameLayout
+                android:id="@+id/my_fragment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+        </FrameLayout>
+            <!--<include-->
+                <!--android:id="@+id/test_card"-->
+                <!--layout="@layout/card_service_provider"/>-->
+            <!--<TextView-->
+                <!--android:id="@+id/testLine"-->
+                <!--android:text="&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="3dp"-->
+                <!--android:background="@color/colorAccent"-->
+                <!--android:layout_below="@+id/test_card"/>-->
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/provider_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/my_fragment"
+                android:layout_marginBottom="@dimen/activity_horizontal_margin"
+                android:scrollbars="vertical"
+                >
+                <!--android:layout_below="@+id/testLine"-->
+
+            </android.support.v7.widget.RecyclerView>
+
+
+
+        <!--START MENU-->
+
+        <com.roughike.bottombar.BottomBar
+            android:id="@+id/bottomBar"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:layout_alignParentBottom="true"
+            app:bb_tabXmlResource="@xml/bottombar_tabs"
+            />
+        <!--END MENU-->
+
+
+
+</RelativeLayout>

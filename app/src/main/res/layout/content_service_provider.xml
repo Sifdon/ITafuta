@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.itafuta.ServiceProviderActivity"
+    tools:showIn="@layout/activity_service_provider"
+    android:fillViewport="true"
+    android:background="@color/background_material_light">
+
+    <!--<RelativeLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content">-->
+        <!--
+        <LinearLayout
+            android:id="@+id/one_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/broughtUserName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Brought User Name"/>
+            <TextView
+                android:id="@+id/broughtFavCount"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Brought Fav count"
+                android:layout_weight="1"/>
+        </LinearLayout>
+        -->
+
+        <!--<RelativeLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="1">-->
+        <!---->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        card_view:cardElevation="@dimen/activity_horizontal_margin">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_margin="@dimen/text_margin">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textColor="@color/green_complete"
+                    android:text="Show some love: "
+                    android:textStyle="bold"/>
+                <!--<ImageButton-->
+                    <!--android:id="@+id/add_friend"-->
+                    <!--android:layout_width="30dp"-->
+                    <!--android:layout_height="30dp"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:layout_marginLeft="16dp"-->
+                    <!--android:layout_marginTop="16dp"-->
+                    <!--android:src="@drawable/ic_favorite_border_black_24dp"-->
+
+                    <!--android:background="#ffffff" />-->
+                <com.like.LikeButton
+                    app:icon_type="heart"
+                    app:icon_size="30dp"
+                    android:id="@+id/btnLike"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    app:circle_start_color="@color/colorPrimary"
+                    app:dots_primary_color="@color/colorTheme"
+                    app:dots_secondary_color="@color/colorPrimary"
+                    app:circle_end_color="@color/colorAccent"
+                    app:liked="false"
+                    app:anim_scale_factor="2"
+                    app:is_enabled="true"/>
+
+                    <!--android:background="@color/colorAccent"/>-->
+                    <!--app:like_drawable="@drawable/ic_favorite_white_24dp"-->
+                    <!--app:unlike_drawable="@drawable/ic_favorite_border_black_24dp"-->
+                    <!--/>-->
+
+                <!--<com.like.LikeButton-->
+                    <!--app:icon_type="heart"-->
+                    <!--app:icon_size="30dp"-->
+                    <!--android:id="@+id/heart_button"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_weight="2"-->
+                    <!--app:circle_start_color="@color/colorPrimary"-->
+                    <!--app:dots_primary_color="@color/colorTheme"-->
+                    <!--app:dots_secondary_color="@color/colorPrimary"-->
+                    <!--app:circle_end_color="@color/colorAccent"-->
+                    <!--app:liked="false"-->
+                    <!--app:anim_scale_factor="2"-->
+                    <!--app:is_enabled="true"/>-->
+                <!--<com.dd.processbutton.iml.ActionProcessButton-->
+                    <!--android:id="@+id/btnFavourite"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_weight="0.5"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="@string/hire"-->
+                    <!--android:textColor="@color/colorTheme"-->
+                    <!--android:textSize="18sp"-->
+                    <!--pb_colorComplete="@color/green_complete"-->
+                    <!--pb_colorNormal="@color/colorTheme"-->
+                    <!--pb_colorPressed="@color/colorAccent"-->
+                    <!--pb_colorProgress="@color/purple_progress"-->
+                    <!--pb_textComplete="@string/Favourited"-->
+                    <!--pb_textProgress="@string/Loading" />-->
+
+
+            </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Rate me: "
+                android:textColor="@color/green_complete"
+                android:gravity="center_horizontal"
+                android:textSize="18sp"
+                />
+
+            <com.iarcuschin.simpleratingbar.SimpleRatingBar
+                android:id="@+id/btnRating"
+                android:layout_width="0dp"
+                android:layout_weight="4"
+                android:layout_height="wrap_content"
+                app:srb_starSize="40dp"
+                app:srb_numberOfStars="5"
+                app:srb_rating="3"
+                app:srb_stepSize="0.5"
+                app:srb_borderColor="@color/grey"
+                app:srb_fillColor="@color/colorTheme" />
+
+        </LinearLayout>
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            card_view:cardElevation="@dimen/activity_horizontal_margin"
+            android:background="@color/colorPrimary"
+            >
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/txtProviderInfoTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/text_margin"
+                android:text="What I do"
+                android:textSize="@dimen/prov_card_text_big"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/txtProviderInfoFull"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtProviderInfoTitle"
+                android:layout_margin="@dimen/text_margin"
+                android:text="@string/provider_text"
+                android:textSize="@dimen/prov_card_text_small"/>
+
+            <TextView
+                android:id="@+id/txtProviderInfoLocationTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txtProviderInfoFull"
+                android:layout_margin="@dimen/text_margin"
+                android:text="Where to find me"
+                android:textSize="@dimen/prov_card_text_big"
+                android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/txtProviderInfoLocationFinal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txtProviderInfoLocationTitle"
+                    android:layout_margin="@dimen/text_margin"
+                    android:text="@string/provider_text"
+                    android:textSize="@dimen/prov_card_text_small"/>
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="REPORT"
+                    android:textColor="@color/colorTheme"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:background="@color/colorAccent"
+                    android:layout_below="@id/txtProviderInfoLocationFinal"/>
+            </RelativeLayout>
+
+        </android.support.v7.widget.CardView>
+
+    </LinearLayout>
+        <!--</RelativeLayout>-->
+
+
+    <!--</RelativeLayout>-->
+
+
+</android.support.v4.widget.NestedScrollView>

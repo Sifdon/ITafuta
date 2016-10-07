@@ -1,0 +1,64 @@
+<!--<?xml version="1.0" encoding="utf-8"?>-->
+<!--<PreferenceScreen-->
+    <!--xmlns:android="http://schemas.android.com/apk/res/android">-->
+<!--<tabs xmlns:android="http://schemas.android.com/apk/res/android">-->
+        <!--
+        <tab
+            id="@+id/tab_favorites"
+            icon="@drawable/ic_favorites"
+            title="Favorites" />
+        <tab
+            id="@+id/tab_nearby"
+            icon="@drawable/ic_nearby"
+            title="Nearby" />
+        <tab
+            id="@+id/tab_friends"
+            icon="@drawable/ic_friends"
+            title="Friends" />
+        -->
+
+        <!--<tab-->
+            <!--android:id="@+id/bottomBarItemHome"-->
+            <!--android:icon="@drawable/ic_home_white_24dp"-->
+            <!--android:title="Home" />-->
+        <!--<tab-->
+            <!--android:id="@+id/bottomBarItemFavourites"-->
+            <!--android:icon="@drawable/ic_favorite_black_24dp"-->
+            <!--android:title="Favourites"/>-->
+        <!--<tab-->
+            <!--android:id="@+id/bottomBarItemSearch"-->
+            <!--android:icon="@android:drawable/ic_menu_search"-->
+            <!--android:title="Search"/>-->
+        <!--<tab-->
+            <!--android:id="@+id/bottomBarItemInfo"-->
+            <!--android:icon="@drawable/ic_info_white_24dp"-->
+            <!--android:title="Info" />-->
+        <!--<tab-->
+            <!--android:id="@+id/bottomBarItemRegister"-->
+            <!--android:icon="@drawable/ic_account_circle_white_24dp"-->
+            <!--android:title="Register" />-->
+<tabs>
+
+    <tab
+        id="@+id/bottomBarItemFavourites"
+        icon="@drawable/ic_favorite_white_24dp"
+        title="Favourites"/>
+    <tab
+        id="@+id/bottomBarItemSearch"
+        icon="@drawable/ic_search_icon"
+        title="Search"/>
+    <tab
+        id="@+id/bottomBarItemHome"
+        icon="@drawable/ic_logo_icon"
+        title="Home"/>
+    <tab
+        id="@+id/bottomBarItemInfo"
+        icon="@drawable/ic_about_icon"
+        title="Info" />
+    <tab
+        id="@+id/bottomBarItemRegister"
+        icon="@drawable/ic_register_icon"
+        title="Register" />
+</tabs>
+
+<!--</PreferenceScreen>-->
