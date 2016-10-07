@@ -1,2 +1,0 @@
-# ITafuta
-Natafuta Project
