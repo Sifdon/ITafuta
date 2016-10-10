@@ -20,6 +20,8 @@ import java.util.ArrayList;
 public class RegisterActivity extends AppCompatActivity {
 
 
+//    FirebaseDatabase firebase;
+
 
     //-------------CAMERA--------
     private ArrayList<Image> images = new ArrayList<>();
@@ -33,6 +35,9 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register_dialog_layout);
+
+//        Firebase.setAndroidContext(this);
+//        firebase = new Firebase("https://*firebase-url*.firebaseio.com/");
 
 
         //------------------Submit button
