@@ -38,6 +38,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.roughike.bottombar.BottomBar;
 //import com.roughike.bottombar.OnMenuTabClickListener;
 import com.roughike.bottombar.BottomBarTab;
@@ -47,6 +51,9 @@ import com.roughike.bottombar.OnTabSelectListener;
 import java.io.ByteArrayOutputStream;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -68,14 +75,31 @@ public class MainActivity extends AppCompatActivity {
 
     //Dummy Data
     ArrayList<ProviderData> results = new ArrayList<ProviderData> ();
-
-
+    private DatabaseReference mDatabase;
+    private FirebaseAuth mAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+
+        if(user!=null) {
+            Toast.makeText(MainActivity.this, user.getEmail() + "--" +user.getUid(), Toast.LENGTH_SHORT).show();
+            String userId = user.getUid();
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("USERNAME", "VictorNew");
+            map.put("nickname", "newUserNameTest");
+            map.put("rate", 2);
+            map.put("email", user.getEmail());
+
+
+            mDatabase.child("users").child(userId).setValue(map);
+        }
 
 
         //My FRAGMENT

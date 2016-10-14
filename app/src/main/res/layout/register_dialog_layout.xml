@@ -20,6 +20,11 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/txtDummy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Dummy"/>
 
     <com.emmasuzuki.easyform.EasyTextInputLayout
         android:id="@+id/empty_check_input"

@@ -9,6 +9,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.view.View;
 import android.view.animation.BounceInterpolator;
 import android.widget.ImageView;
@@ -17,6 +18,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dd.processbutton.iml.ActionProcessButton;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.iarcuschin.simpleratingbar.SimpleRatingBar;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
@@ -26,6 +32,9 @@ import com.r0adkll.slidr.model.SlidrListener;
 import com.r0adkll.slidr.model.SlidrPosition;
 
 public class ServiceProviderActivity extends AppCompatActivity {
+
+    private DatabaseReference mDatabase;
+    ImageView finalUserImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,9 +85,13 @@ public class ServiceProviderActivity extends AppCompatActivity {
                 .build();
         Slidr.attach(this, config);
 
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
 
-        ImageView finalUserImage = (ImageView) findViewById(R.id.finalProfilePhoto);
+
+        finalUserImage = (ImageView) findViewById(R.id.finalProfilePhoto);
+        previewStoredFirebaseImage();
+
         //TextView finalUserName = (TextView) findViewById(R.id.broughtUserName);
         //TextView finalFabCount = (TextView) findViewById(R.id.broughtFavCount);
         final RatingBar finalRatingBar = (RatingBar) findViewById(R.id.ratingProvider);
@@ -152,4 +165,30 @@ public class ServiceProviderActivity extends AppCompatActivity {
         String userName = extras.getString("USER_NAME");
         getSupportActionBar().setTitle(userName);
     }
+
+    ////===========================
+    //Fetchs images and displays it
+    private void previewStoredFirebaseImage() {
+        mDatabase.child("pic").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                String base64Image = (String) snapshot.getValue();
+                byte[] imageAsBytes = Base64.decode(base64Image.getBytes(), Base64.DEFAULT);
+                finalUserImage.setImageBitmap(
+                        BitmapFactory.decodeByteArray(imageAsBytes, 0, imageAsBytes.length)
+                );
+                System.out.println("Downloaded image with length: " + imageAsBytes.length);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+//
+//            @Override
+//            public void onCancelled(FirebaseError error) {}
+        });
+    }
+
+    ////===========================
 }
