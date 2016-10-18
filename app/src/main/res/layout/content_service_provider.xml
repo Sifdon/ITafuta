@@ -40,16 +40,19 @@
             <!--android:layout_weight="1">-->
         <!---->
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        card_view:cardElevation="@dimen/activity_horizontal_margin">
+        card_view:cardElevation="@dimen/activity_horizontal_margin1">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_margin="@dimen/text_margin">
+
 
                 <TextView
                     android:layout_width="0dp"
@@ -120,6 +123,7 @@
 
 
             </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -136,9 +140,9 @@
             <com.iarcuschin.simpleratingbar.SimpleRatingBar
                 android:id="@+id/btnRating"
                 android:layout_width="0dp"
-                android:layout_weight="4"
+                android:layout_weight="5"
                 android:layout_height="wrap_content"
-                app:srb_starSize="40dp"
+                app:srb_starSize="35dp"
                 app:srb_numberOfStars="5"
                 app:srb_rating="3"
                 app:srb_stepSize="0.5"
@@ -146,16 +150,43 @@
                 app:srb_fillColor="@color/colorTheme" />
 
         </LinearLayout>
-        <android.support.v7.widget.CardView
+
+
+        <!--<android.support.v7.widget.CardView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="@dimen/activity_horizontal_margin"-->
+            <!--card_view:cardElevation="@dimen/activity_horizontal_margin"-->
+            <!--android:background="@color/colorPrimary"-->
+            <!--&gt;-->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/activity_horizontal_margin"
-            card_view:cardElevation="@dimen/activity_horizontal_margin"
-            android:background="@color/colorPrimary"
-            >
+            android:orientation="vertical"
+            android:background="@color/colorPrimary">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Talk to me: "
+                android:textStyle="bold"
+                android:textSize="@dimen/prov_card_text_big"
+                android:layout_margin="@dimen/text_margin"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:text="0911911911"
+                android:textColor="@color/green_complete"
+                android:textSize="@dimen/prov_card_text_big"
+                android:layout_margin="@dimen/text_margin"
+                android:textStyle="bold"/>
+        </LinearLayout>
+
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:background="@color/colorPrimary">
             <TextView
                 android:id="@+id/txtProviderInfoTitle"
                 android:layout_width="match_parent"
@@ -193,6 +224,8 @@
                     android:text="@string/provider_text"
                     android:textSize="@dimen/prov_card_text_small"/>
 
+
+
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -204,7 +237,7 @@
                     android:layout_below="@id/txtProviderInfoLocationFinal"/>
             </RelativeLayout>
 
-        </android.support.v7.widget.CardView>
+        <!--</android.support.v7.widget.CardView>-->
 
     </LinearLayout>
         <!--</RelativeLayout>-->

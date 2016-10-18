@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
@@ -53,13 +54,17 @@ public class RegisterActivity extends AppCompatActivity {
     String filePath;
     //-------------CAMERA--------
 
+    int checksCount;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register_dialog_layout);
 
+
         mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.keepSynced(true);
         //mDbRef = mDatabase.getReference();
 
         mAuth = FirebaseAuth.getInstance();
@@ -75,6 +80,48 @@ public class RegisterActivity extends AppCompatActivity {
 
                     }
                 });
+
+        //Addingprovider's data on launch
+        FirebaseUser user = mAuth.getCurrentUser();
+
+
+
+        Map<String, Object> provider = new HashMap<String, Object>();
+
+
+
+        provider.put("email", user.getEmail());
+        provider.put("name", "James Odongo");
+        provider.put("cellphone", +254-87654321);
+        provider.put("profPhoto", "This is some image");
+        provider.put("rating", 0);
+
+        //provider.put("region", "Kawangware");
+          Map<String, Object> providerOccupation = new HashMap<String, Object>();
+          providerOccupation.put("1", "Ruiru");
+          providerOccupation.put("2", "Wanyee");
+          providerOccupation.put("3", "Kikuyu");
+          mDatabase.child("providers").child(user.getUid()).child("region").setValue(providerOccupation);
+
+        mDatabase.child("providers").child(user.getUid()).updateChildren(provider);
+        DatabaseReference jj = mDatabase.child("providers").child(user.getUid()).child("region").getRef();
+        jj.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                int x = (int) dataSnapshot.getChildrenCount();
+
+                Toast.makeText(RegisterActivity.this, x+"" , Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+
         mAuth.signInWithEmailAndPassword("james2@yahoo.com", "james1234")
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
@@ -225,22 +272,26 @@ public class RegisterActivity extends AppCompatActivity {
 
             }
         });
+
+
     }
+
 
 
 
     public void onCheckboxClicked(View view) {
         // Is the view now checked?
         boolean checked = ((CheckBox) view).isChecked();
-        int checksCount = 0;
 
-        if (checksCount <= 3) {
+        checksCount = 0;//clicks
+
+        //if (checksCount <= 3) {
             // Check which checkbox was clicked
             switch (view.getId()) {
 
                 case R.id.checkbox_plumber:
                     if (checked) {
-                        checksCount = checksCount + 1;
+                        checksCount ++;
                         Toast.makeText(RegisterActivity.this, checksCount + "", Toast.LENGTH_SHORT).show();
                     }
                     // Put some meat on the sandwich
@@ -252,7 +303,7 @@ public class RegisterActivity extends AppCompatActivity {
                     break;
                 case R.id.checkbox_carpenter:
                     if (checked) {
-                        checksCount = checksCount + 1;
+                        checksCount ++;
                         Toast.makeText(RegisterActivity.this, checksCount + "", Toast.LENGTH_SHORT).show();
                     }
                     // Put some meat on the sandwich
@@ -264,7 +315,7 @@ public class RegisterActivity extends AppCompatActivity {
                     break;
                 case R.id.checkbox_painter:
                     if (checked) {
-                        checksCount = checksCount + 1;
+                        checksCount ++;
                         Toast.makeText(RegisterActivity.this, checksCount + "", Toast.LENGTH_SHORT).show();
                     }
                     // Put some meat on the sandwich
@@ -276,7 +327,7 @@ public class RegisterActivity extends AppCompatActivity {
                     break;
                 case R.id.checkbox_houseagents:
                     if (checked) {
-                        checksCount = checksCount + 1;
+                        checksCount = checksCount ++;
                         Toast.makeText(RegisterActivity.this, checksCount + "", Toast.LENGTH_SHORT).show();
                     }
                     // Put some meat on the sandwich
@@ -287,10 +338,14 @@ public class RegisterActivity extends AppCompatActivity {
                     // Remove the meat
                     break;
             }
-        }else{
+        }
+    /*
+
+    else{
             Toast.makeText(RegisterActivity.this, "Only three roles allowed", Toast.LENGTH_SHORT).show();
         }
     }
+    */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_CODE_PICKER && resultCode == RESULT_OK && data != null) {
@@ -321,7 +376,9 @@ public class RegisterActivity extends AppCompatActivity {
     private void storeImageToFirebase() {
         BitmapFactory.Options options = new BitmapFactory.Options();
         //options.inSampleSize = 8; // shrink it down otherwise we will use stupid amounts of memory
-        options.inSampleSize = 2; // shrink it down otherwise we will use stupid amounts of memory
+        options.inSampleSize = 16; // shrink it down otherwise we will use stupid amounts of memory
+        //options.inSampleSize = 2; // This wa eaating my memory
+
 
         Bitmap bitmap = BitmapFactory.decodeFile(filePath, options);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -386,5 +443,6 @@ public class RegisterActivity extends AppCompatActivity {
                 });
         // [END signin_anonymously]
     }
+
 
 }

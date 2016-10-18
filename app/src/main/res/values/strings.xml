@@ -11,6 +11,10 @@
     <string name="dummy_content">iTafuta</string>
     <string name="dev_by">Developed by Conquest Capital</string>
 
+    <!-- Lgin in logout-->
+    <string name="login">Login</string>
+    <string name="logout">Logout</string>
+
     <!--Favourite strings-->
     <string name="hire">Hire me</string>
     <string name="Favourited">Favourited</string>

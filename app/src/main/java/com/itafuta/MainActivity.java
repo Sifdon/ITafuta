@@ -84,8 +84,10 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.keepSynced(true);
 
         mAuth = FirebaseAuth.getInstance();
+
         FirebaseUser user = mAuth.getCurrentUser();
 
         if(user!=null) {
@@ -445,5 +447,24 @@ public class MainActivity extends AppCompatActivity {
     }
     //*************END GESTURE DETECTOR***********
     //############## END CLICKING ITEMS ON RECYCLER ###########
+
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);//Menu Resource, Menu
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.login:
+                Toast.makeText(getApplicationContext(),"you want to logout",Toast.LENGTH_LONG).show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
 }

@@ -14,6 +14,8 @@
     <dimen name="prov_card_text_small">18sp</dimen>
     <dimen name="prov_card_text_big">20sp</dimen>
     <dimen name="app_bar_height">180dp</dimen>
+    <dimen name="app_bar_height2">250dp</dimen>
+
     <dimen name="text_margin">16dp</dimen>
 
 

@@ -4,10 +4,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/provider_card"
     android:layout_width="match_parent"
-    android:layout_height="105dp"
+    android:layout_height="110dp"
     card_view:cardCornerRadius="0dp"
     card_view:cardBackgroundColor="@color/provider_bg"
-    card_view:cardElevation="2dp">
+    card_view:cardElevation="1dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -18,7 +18,7 @@
                 android:id="@+id/imgProviderImage"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:scaleType="fitXY"
+                android:scaleType="centerCrop"
                 android:src="@drawable/displayprofimage"
                 android:contentDescription="@string/provider_image_info"
                 android:padding="0dp"/>
@@ -130,7 +130,9 @@
                         android:textStyle="bold"
                         android:layout_weight="3"
                         android:gravity="center_horizontal"
-                        android:textSize="@dimen/prov_card_text_big"/>
+                        android:textSize="@dimen/prov_card_text_big"
+                        android:ellipsize="end"
+                        android:singleLine="true"/>
                     <TextView
                         android:id="@+id/txtFavCount"
                         android:layout_width="0dp"
