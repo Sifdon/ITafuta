@@ -49,6 +49,7 @@ public class RegisterActivity extends AppCompatActivity {
     private int REQUEST_CODE_PICKER = 2000;
     ImageView mLoadedImage;
 
+
     Image x;
 
     String filePath;
@@ -61,6 +62,11 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register_dialog_layout);
+
+
+
+
+
 
 
         mDatabase = FirebaseDatabase.getInstance().getReference();

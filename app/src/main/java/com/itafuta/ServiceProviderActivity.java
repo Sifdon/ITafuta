@@ -86,6 +86,7 @@ public class ServiceProviderActivity extends AppCompatActivity {
         Slidr.attach(this, config);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.keepSynced(true);
 
 
 

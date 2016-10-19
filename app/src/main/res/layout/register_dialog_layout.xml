@@ -24,31 +24,61 @@
                 android:id="@+id/txtDummy"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Dummy"/>
+                android:text="Please enter your details below"/>
+
 
             <com.emmasuzuki.easyform.EasyTextInputLayout
-                android:id="@+id/empty_check_input"
+                android:id="@+id/edit_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Enter User Name"
+                android:layout_below="@id/txtDummy"
+                android:hint="Enter Full Name"
                 app:errorMessage="@string/error_message_empty"
                 app:errorType="empty" />
 
             <com.emmasuzuki.easyform.EasyTextInputLayout
-                android:id="@+id/digit_check_input"
+                android:id="@+id/edit_contact"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/empty_check_input"
-                android:layout_marginTop="@dimen/activity_horizontal_margin"
-                android:hint="Your Contact"
-                app:errorMessage="@string/error_message_digit"
-                app:regexPattern="[0-9]+" />
+                android:layout_below="@id/edit_name"
+                android:hint="Enter Phone number"
+                app:errorMessage="Ensure its valid number"
+                app:errorType="empty"
+                app:minValue="0"
+                app:maxValue="15"
+                app:minChars="7"
+                app:maxChars="15"
+                android:inputType="number"/>
+
+            <com.emmasuzuki.easyform.EasyTextInputLayout
+                android:id="@+id/edit_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/edit_contact"
+                android:hint="Password"
+                app:errorMessage="Password should be greater than 4 characters"
+                app:errorType="empty"
+                app:minChars="4"
+                android:inputType="textPassword"/>
+
+            <com.emmasuzuki.easyform.EasyTextInputLayout
+                android:id="@+id/edit_password_confirm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/edit_password"
+                android:hint="Confirm password"
+                app:errorMessage="Verify  your password"
+                app:errorType="empty"
+                app:minChars="4"
+                android:inputType="textPassword" />
+
+
             <Button
                 android:id="@+id/btnUploadProfPhoto"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/activity_horizontal_margin"
-                android:layout_below="@id/digit_check_input"
+                android:layout_below="@id/edit_password_confirm"
                 android:text="Upload Profile Photo"/>
 
             <RelativeLayout
@@ -167,7 +197,7 @@
             android:layout_marginTop="@dimen/activity_horizontal_margin"
             android:layout_below="@id/imgLoadedImage"
             android:background="@color/colorAccent"
-            android:text="SUBMIT"
+            android:text="Create account"
             android:textColor="@android:color/white" />
     </RelativeLayout>
 
