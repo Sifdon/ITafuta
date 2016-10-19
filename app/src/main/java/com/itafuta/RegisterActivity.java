@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.emmasuzuki.easyform.EasyTextInputLayout;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -36,6 +37,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity {
+    private static final String TAG = "RegisterActivity";
 
     private FirebaseAuth.AuthStateListener mAuthListener;
     private DatabaseReference mDatabase;
@@ -48,25 +50,27 @@ public class RegisterActivity extends AppCompatActivity {
 
     private int REQUEST_CODE_PICKER = 2000;
     ImageView mLoadedImage;
-
-
     Image x;
+
+
 
     String filePath;
     //-------------CAMERA--------
 
     int checksCount;
 
+    //Widgets references
+    EasyTextInputLayout editSignupEmail;
+    EasyTextInputLayout editSignupPass;
+    EasyTextInputLayout editSignupPassConfirm;
+    EasyTextInputLayout editSignupUsername;
+    Button btnSignup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register_dialog_layout);
-
-
-
-
-
+        Log.d(TAG, "You got into RegisterActivity");
 
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -74,7 +78,23 @@ public class RegisterActivity extends AppCompatActivity {
         //mDbRef = mDatabase.getReference();
 
         mAuth = FirebaseAuth.getInstance();
+        Log.d(TAG, "Instantianted firebase authentaction");
 
+        //Reference all widgets
+        editSignupEmail = (EasyTextInputLayout) findViewById(R.id.edit_signup_email);
+        editSignupPass = (EasyTextInputLayout) findViewById(R.id.edit_password);
+        editSignupPassConfirm = (EasyTextInputLayout) findViewById(R.id.edit_password_confirm);
+        btnSignup = (Button) findViewById(R.id.btn_signup);
+        btnSignup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                validate();
+            }
+        });
+
+
+
+        /*
         mAuth.createUserWithEmailAndPassword("james2@yahoo.com", "james1234")
                 .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -86,14 +106,21 @@ public class RegisterActivity extends AppCompatActivity {
 
                     }
                 });
+        */
+
 
         //Addingprovider's data on launch
+
+
+
+        //==========================================================================================
+        //=================== Start where I was updating my things =================================
+        /*
+
         FirebaseUser user = mAuth.getCurrentUser();
 
 
-
         Map<String, Object> provider = new HashMap<String, Object>();
-
 
 
         provider.put("email", user.getEmail());
@@ -127,7 +154,13 @@ public class RegisterActivity extends AppCompatActivity {
 
 
 
+        */
+        //====================End This was updating my things=======================================
+        //==========================================================================================
 
+
+
+        /*
         mAuth.signInWithEmailAndPassword("james2@yahoo.com", "james1234")
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
@@ -145,6 +178,9 @@ public class RegisterActivity extends AppCompatActivity {
                     }
                 }
         );
+        */
+
+        /*
 
 
         if (mAuth.getCurrentUser() != null) {
@@ -154,7 +190,7 @@ public class RegisterActivity extends AppCompatActivity {
             FirebaseUser cUser = mAuth.getCurrentUser();
             mText.setText(cUser.getDisplayName());
         }
-
+        */
 
         //signInAnonymously();
         //-----------------------------
@@ -207,6 +243,8 @@ public class RegisterActivity extends AppCompatActivity {
         */
 
         //------------------Submit button
+
+        /*
         Button submitBtn = (Button) findViewById(R.id.btn_submit_registration);
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -243,12 +281,14 @@ public class RegisterActivity extends AppCompatActivity {
                         // ...
                     }
                 };
-                */
+
 
 
 
             }
         });
+        //======== end submit button
+        */
 
 
 
@@ -451,4 +491,37 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
 
+    public void validate(){
+        Log.d(TAG, "Validating user input for sign-up");
+        String email = editSignupEmail.getEditText().toString();
+        String password = editSignupPass.getEditText().toString();
+        String passwordConfirm = editSignupPassConfirm.getEditText().toString();
+
+        email = email.trim();
+        password = password.trim();
+
+        if(email.isEmpty() || password.isEmpty() || passwordConfirm.isEmpty()){
+            Toast.makeText(RegisterActivity.this, "Ensure the field are filled!", Toast.LENGTH_SHORT).show();
+        }else if(password != passwordConfirm){
+            Toast.makeText(RegisterActivity.this, "Password doesn't match", Toast.LENGTH_SHORT).show();
+        }else{
+            //Validation success
+            mAuth.createUserWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (!task.isSuccessful()) {
+                                Log.d(TAG, "Failed to authenticate");
+                                Toast.makeText(RegisterActivity.this, "Auth failed",
+                                        Toast.LENGTH_SHORT).show();
+                            }else {
+                                Log.d(TAG, "User validated. Authenticated successfully!");
+                                Intent goToLogin = new Intent(RegisterActivity.this, MainActivity.class);
+                                startActivity(goToLogin);
+                            }
+
+                        }
+                    });
+        }
+    }
 }

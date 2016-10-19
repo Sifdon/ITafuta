@@ -49,12 +49,19 @@
                 app:minChars="7"
                 app:maxChars="15"
                 android:inputType="number"/>
+            <com.emmasuzuki.easyform.EasyFormEditText
+                android:id="@+id/edit_signup_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/edit_contact"
+                android:inputType="textEmailAddress"
+                android:hint="Enter you email"/>
 
             <com.emmasuzuki.easyform.EasyTextInputLayout
                 android:id="@+id/edit_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/edit_contact"
+                android:layout_below="@+id/edit_signup_email"
                 android:hint="Password"
                 app:errorMessage="Password should be greater than 4 characters"
                 app:errorType="empty"
@@ -191,7 +198,7 @@
             android:layout_height="wrap_content" />
 
         <Button
-            android:id="@+id/btn_submit_registration"
+            android:id="@+id/btn_signup"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_marginTop="@dimen/activity_horizontal_margin"

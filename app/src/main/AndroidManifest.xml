@@ -56,7 +56,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.itafuta.MainActivity" />
         </activity>
-        <activity android:name=".MenuActivity"></activity>
+        <activity android:name=".MenuActivity" />
+        <activity android:name=".LoginActivity"></activity>
     </application>
 
 </manifest>
