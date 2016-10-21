@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.emmasuzuki.easyform.EasyFormEditText;
 import com.emmasuzuki.easyform.EasyTextInputLayout;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -60,10 +61,10 @@ public class RegisterActivity extends AppCompatActivity {
     int checksCount;
 
     //Widgets references
-    EasyTextInputLayout editSignupEmail;
-    EasyTextInputLayout editSignupPass;
-    EasyTextInputLayout editSignupPassConfirm;
-    EasyTextInputLayout editSignupUsername;
+    EasyFormEditText editSignupEmail;
+    EasyFormEditText editSignupPass;
+    EasyFormEditText editSignupPassConfirm;
+    EasyFormEditText editSignupUsername;
     Button btnSignup;
 
     @Override
@@ -74,16 +75,16 @@ public class RegisterActivity extends AppCompatActivity {
 
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        mDatabase.keepSynced(true);
+        //mDatabase.keepSynced(true);
         //mDbRef = mDatabase.getReference();
 
         mAuth = FirebaseAuth.getInstance();
         Log.d(TAG, "Instantianted firebase authentaction");
 
         //Reference all widgets
-        editSignupEmail = (EasyTextInputLayout) findViewById(R.id.edit_signup_email);
-        editSignupPass = (EasyTextInputLayout) findViewById(R.id.edit_password);
-        editSignupPassConfirm = (EasyTextInputLayout) findViewById(R.id.edit_password_confirm);
+        editSignupEmail = (EasyFormEditText) findViewById(R.id.edit_signup_email);
+        editSignupPass = (EasyFormEditText) findViewById(R.id.edit_password);
+        editSignupPassConfirm = (EasyFormEditText) findViewById(R.id.edit_password_confirm);
         btnSignup = (Button) findViewById(R.id.btn_signup);
         btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -463,6 +464,7 @@ public class RegisterActivity extends AppCompatActivity {
     private void signInAnonymously() {
 
         // [START signin_anonymously]
+        /*
         mAuth.signInAnonymously()
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -488,24 +490,26 @@ public class RegisterActivity extends AppCompatActivity {
                     }
                 });
         // [END signin_anonymously]
+        */
     }
 
 
     public void validate(){
         Log.d(TAG, "Validating user input for sign-up");
-        String email = editSignupEmail.getEditText().toString();
-        String password = editSignupPass.getEditText().toString();
-        String passwordConfirm = editSignupPassConfirm.getEditText().toString();
+        String email = editSignupEmail.getText().toString();
+        String password = editSignupPass.getText().toString();
+        String passwordConfirm = editSignupPassConfirm.getText().toString();
 
         email = email.trim();
         password = password.trim();
 
         if(email.isEmpty() || password.isEmpty() || passwordConfirm.isEmpty()){
             Toast.makeText(RegisterActivity.this, "Ensure the field are filled!", Toast.LENGTH_SHORT).show();
-        }else if(password != passwordConfirm){
+        }else if(!password.equals(passwordConfirm)){
             Toast.makeText(RegisterActivity.this, "Password doesn't match", Toast.LENGTH_SHORT).show();
         }else{
             //Validation success
+            mAuth = FirebaseAuth.getInstance();
             mAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
                         @Override
@@ -516,6 +520,7 @@ public class RegisterActivity extends AppCompatActivity {
                                         Toast.LENGTH_SHORT).show();
                             }else {
                                 Log.d(TAG, "User validated. Authenticated successfully!");
+                                mAuth.signOut();
                                 Intent goToLogin = new Intent(RegisterActivity.this, MainActivity.class);
                                 startActivity(goToLogin);
                             }

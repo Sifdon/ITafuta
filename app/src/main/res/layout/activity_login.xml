@@ -20,7 +20,7 @@
             android:src="@drawable/logo"
             android:layout_centerHorizontal="true"/>
 
-        <com.emmasuzuki.easyform.EasyTextInputLayout
+        <com.emmasuzuki.easyform.EasyFormEditText
             android:id="@+id/edit_login_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -31,7 +31,7 @@
             app:errorMessage="@string/error_message_empty"
             app:errorType="empty" />
 
-        <com.emmasuzuki.easyform.EasyTextInputLayout
+        <com.emmasuzuki.easyform.EasyFormEditText
             android:id="@+id/edit_login_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

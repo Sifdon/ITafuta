@@ -22,6 +22,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Layout;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -58,6 +59,8 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String TAG = "MainActivity";
+
     FragmentTransaction ft;
     FragmentManager fm;
     BlankFragment myFragment;
@@ -76,7 +79,8 @@ public class MainActivity extends AppCompatActivity {
     //Dummy Data
     ArrayList<ProviderData> results = new ArrayList<ProviderData> ();
     private DatabaseReference mDatabase;
-    private FirebaseAuth mAuth;
+    FirebaseAuth mAuth;
+    FirebaseUser user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,8 +91,7 @@ public class MainActivity extends AppCompatActivity {
         mDatabase.keepSynced(true);
 
         mAuth = FirebaseAuth.getInstance();
-
-        FirebaseUser user = mAuth.getCurrentUser();
+        user = mAuth.getCurrentUser();
 
         if(user!=null) {
             Toast.makeText(MainActivity.this, user.getEmail() + "--" +user.getUid(), Toast.LENGTH_SHORT).show();
@@ -275,7 +278,8 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 if (tabId == R.id.bottomBarItemRegister) {
-                    Intent i = new Intent(MainActivity.this, RegisterActivity.class);
+                    Log.d(TAG, "Going to login activity");
+                    Intent i = new Intent(MainActivity.this, LoginActivity.class);
                     startActivity(i);
                 }
 
@@ -460,11 +464,19 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.login:
-                Toast.makeText(getApplicationContext(),"you want to logout",Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),"You want to Login",Toast.LENGTH_LONG).show();
+                if(user!= null){
+                    mAuth.signOut();
+                    item.setTitle("Logout");
+                } else {
+                    Intent goToLogin = new Intent(MainActivity.this, LoginActivity.class);
+                    startActivity(goToLogin);
+                }
+
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
-
 }
+

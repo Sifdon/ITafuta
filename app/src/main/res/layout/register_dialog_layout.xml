@@ -57,7 +57,7 @@
                 android:inputType="textEmailAddress"
                 android:hint="Enter you email"/>
 
-            <com.emmasuzuki.easyform.EasyTextInputLayout
+            <com.emmasuzuki.easyform.EasyFormEditText
                 android:id="@+id/edit_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -68,7 +68,7 @@
                 app:minChars="4"
                 android:inputType="textPassword"/>
 
-            <com.emmasuzuki.easyform.EasyTextInputLayout
+            <com.emmasuzuki.easyform.EasyFormEditText
                 android:id="@+id/edit_password_confirm"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
