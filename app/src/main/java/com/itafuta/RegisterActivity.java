@@ -12,7 +12,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -59,8 +58,7 @@ public class RegisterActivity extends AppCompatActivity {
     String filePath;
     //-------------CAMERA--------
 
-    int checksCount = 0;
-    int checksLimitCount;
+    int checksCount;
 
     //Widgets references
     EasyFormEditText editSignupEmail;
@@ -332,9 +330,9 @@ public class RegisterActivity extends AppCompatActivity {
         // Is the view now checked?
         boolean checked = ((CheckBox) view).isChecked();
 
-        //checksCount = 0;//clicks
+        checksCount = 0;//clicks
 
-//        if (checksCount <= 3) {
+        //if (checksCount <= 3) {
             // Check which checkbox was clicked
             switch (view.getId()) {
 
@@ -346,7 +344,6 @@ public class RegisterActivity extends AppCompatActivity {
                     // Put some meat on the sandwich
                     else {
 //                    checksCount = checksCount - 1;
-                        checksCount--;
                         Toast.makeText(RegisterActivity.this, checksCount + "", Toast.LENGTH_SHORT).show();
                     }
                     // Remove the meat
@@ -359,7 +356,6 @@ public class RegisterActivity extends AppCompatActivity {
                     // Put some meat on the sandwich
                     else {
 //                    checksCount = checksCount - 1;
-                        checksCount--;
                         Toast.makeText(RegisterActivity.this, checksCount + "", Toast.LENGTH_SHORT).show();
                     }
                     // Remove the meat
@@ -372,82 +368,31 @@ public class RegisterActivity extends AppCompatActivity {
                     // Put some meat on the sandwich
                     else {
 //                    checksCount = checksCount - 1;
-                        checksCount--;
                         Toast.makeText(RegisterActivity.this, checksCount + "", Toast.LENGTH_SHORT).show();
                     }
                     // Remove the meat
                     break;
                 case R.id.checkbox_houseagents:
                     if (checked) {
-                        checksCount ++;
+                        checksCount = checksCount ++;
                         Toast.makeText(RegisterActivity.this, checksCount + "", Toast.LENGTH_SHORT).show();
                     }
                     // Put some meat on the sandwich
                     else {
 //                    checksCount = checksCount - 1;
-                        checksCount--;
                         Toast.makeText(RegisterActivity.this, checksCount + "", Toast.LENGTH_SHORT).show();
                     }
                     // Remove the meat
                     break;
             }
-//        }
-
-
-//    else{
-            cba = new CheckBox[]{
-                    (CheckBox) findViewById(R.id.checkbox_plumber),
-                    (CheckBox) findViewById(R.id.checkbox_carpenter),
-                    (CheckBox) findViewById(R.id.checkbox_painter),
-                    (CheckBox) findViewById(R.id.checkbox_houseagents),
-                    (CheckBox) findViewById(R.id.checkbox_carpetcleaning),
-                    (CheckBox) findViewById(R.id.checkbox_mamanguo),
-                    (CheckBox) findViewById(R.id.checkbox_garbagecollectors),
-                    (CheckBox) findViewById(R.id.checkbox_mechanic),
-                    (CheckBox) findViewById(R.id.checkbox_mover),
-                    (CheckBox) findViewById(R.id.checkbox_waterdelivery)
-            };
-            //here set onChechedChange for all your checkboxes
-            for (CheckBox cb:cba) {
-                cb.setOnCheckedChangeListener(cbListener);
-            }
-//        }
-    }
-
-    //======================Listen for extra clicked item===========================================
-    CheckBox[] cba;
-    CompoundButton.OnCheckedChangeListener cbListener = new CompoundButton.OnCheckedChangeListener() {
-        @Override
-        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            checkEnoughAndMakeDisabled(cba);
         }
-    };
+    /*
 
-    private void checkEnoughAndMakeDisabled(CheckBox checkBoxes[]){
-        checksLimitCount = 0;
-        for (CheckBox cb:checkBoxes){
-            cb.setEnabled(true);
-            if (cb.isChecked()) checksLimitCount++;
-        }
-        //your variable
-        if (3 <= checksLimitCount) {
-            for (CheckBox cb:checkBoxes){
-                if (!cb.isChecked())cb.setEnabled(false);
-            }
+    else{
             Toast.makeText(RegisterActivity.this, "Only three roles allowed", Toast.LENGTH_SHORT).show();
         }
     }
-    //======================Listen for extra clicked item===========================================
-
-
-
-
-
-
-
-
-
-
+    */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_CODE_PICKER && resultCode == RESULT_OK && data != null) {
