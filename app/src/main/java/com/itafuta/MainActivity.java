@@ -16,6 +16,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabItem;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -209,10 +210,12 @@ public class MainActivity extends AppCompatActivity {
 
         mBottomBar = (BottomBar) findViewById(R.id.bottomBar);
 
+
         mBottomBar.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelected(@IdRes int tabId) {
                 if (tabId == R.id.bottomBarItemFavourites) {
+
                     // The tab with id R.id.tab_favorites was selected,
                     // change your content accordingly.
 
@@ -233,6 +236,7 @@ public class MainActivity extends AppCompatActivity {
 
                 }
                 if (tabId ==  R.id.bottomBarItemHome) {
+
                     Toast.makeText(MainActivity.this, "You selected " + tabId, Toast.LENGTH_SHORT).show();
 //                    Intent intent = new Intent(MainActivity.this, CategoriesActivity.class);
                     ft = fm.beginTransaction();
@@ -278,9 +282,13 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 if (tabId == R.id.bottomBarItemRegister) {
-                    Log.d(TAG, "Going to login activity");
-                    Intent i = new Intent(MainActivity.this, LoginActivity.class);
-                    startActivity(i);
+                    if (user!= null){
+                        Toast.makeText(MainActivity.this, "Already a member and Logged in!", Toast.LENGTH_SHORT).show();
+                    }else {
+                        Log.d(TAG, "Going to login activity");
+                        Intent i = new Intent(MainActivity.this, LoginActivity.class);
+                        startActivity(i);
+                    }
                 }
 
             }
@@ -454,21 +462,37 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+    MenuItem myLogStatus; //Whetherlogin in or logout
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);//Menu Resource, Menu
+
+        myLogStatus = menu.findItem(R.id.login);
+        updateMenuTitles();
+
         return true;
     }
+    private void updateMenuTitles(){
+        if(user!= null){
+            myLogStatus.setTitle("Logout");
+        }else{
+            myLogStatus.setTitle("Login");
+        }
+    }
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
         switch (item.getItemId()) {
             case R.id.login:
-                Toast.makeText(getApplicationContext(),"You want to Login",Toast.LENGTH_LONG).show();
-                if(user!= null){
+                if(item.getTitle() == "Logout"){
                     mAuth.signOut();
-                    item.setTitle("Logout");
+                    item.setTitle("Login");
+                    Toast.makeText(MainActivity.this, "You have been logged out.", Toast.LENGTH_SHORT).show();
                 } else {
+                    Toast.makeText(getApplicationContext(),"You want to Login",Toast.LENGTH_LONG).show();
                     Intent goToLogin = new Intent(MainActivity.this, LoginActivity.class);
                     startActivity(goToLogin);
                 }
@@ -478,5 +502,7 @@ public class MainActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
+
 }
 
