@@ -44,6 +44,8 @@ public class RegisterActivity extends AppCompatActivity {
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
 
+    private ProviderRegistrationData registrationContent;
+
     Bitmap bitmap;
 
     //-------------CAMERA--------
@@ -65,6 +67,10 @@ public class RegisterActivity extends AppCompatActivity {
     EasyFormEditText editSignupPass;
     EasyFormEditText editSignupPassConfirm;
     EasyFormEditText editSignupUsername;
+
+    Button btnUploadPhoto;
+    Button btnUploadIdFront;
+    Button btnUploadIdBack;
     Button btnSignup;
 
     @Override
@@ -85,6 +91,21 @@ public class RegisterActivity extends AppCompatActivity {
         editSignupEmail = (EasyFormEditText) findViewById(R.id.edit_signup_email);
         editSignupPass = (EasyFormEditText) findViewById(R.id.edit_password);
         editSignupPassConfirm = (EasyFormEditText) findViewById(R.id.edit_password_confirm);
+
+        btnUploadPhoto = (Button) findViewById(R.id.btnUploadProfPhoto);
+        btnUploadIdBack = (Button) findViewById(R.id.btnUploadImageIdBack);
+
+        btnUploadIdBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                pickingImage();
+            }
+        });
+
+
+
+
+
         btnSignup = (Button) findViewById(R.id.btn_signup);
         btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -294,6 +315,7 @@ public class RegisterActivity extends AppCompatActivity {
 
 
 
+        //-------------Upload inmages buttons -----------------------------------
         Button upLoadImage = (Button) findViewById(R.id.btnUploadImage);
         mLoadedImage = (ImageView) findViewById(R.id.imgLoadedImage);
 
@@ -311,7 +333,7 @@ public class RegisterActivity extends AppCompatActivity {
                         .imageTitle("Tap to select") // image selection title
                         .single() // single mode
                         .multi() // multi mode (default mode)
-                        .limit(10) // max images can be selected (99 by default)
+                        .limit(1) // max images can be selected (99 by default)
                         .showCamera(true) // show camera or not (true by default)
                         .imageDirectory("Camera") // directory name for captured image  ("Camera" folder by default)
                         .origin(images) // original selected images, used in multi mode
@@ -321,6 +343,20 @@ public class RegisterActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    public void pickingImage(){
+        ImagePicker.create(RegisterActivity.this)
+                .folderMode(true) // folder mode (false by default)
+                .folderTitle("Folder") // folder selection title
+                .imageTitle("Tap to select") // image selection title
+                .single() // single mode
+                .multi() // multi mode (default mode)
+                .limit(1) // max images can be selected (99 by default)
+                .showCamera(true) // show camera or not (true by default)
+                .imageDirectory("Camera") // directory name for captured image  ("Camera" folder by default)
+                .origin(images) // original selected images, used in multi mode
+                .start(REQUEST_CODE_PICKER); // start image picker activity with request code
     }
 
 
@@ -419,7 +455,6 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
-
     private void storeImageToFirebase() {
         BitmapFactory.Options options = new BitmapFactory.Options();
         //options.inSampleSize = 8; // shrink it down otherwise we will use stupid amounts of memory
@@ -438,6 +473,7 @@ public class RegisterActivity extends AppCompatActivity {
         mDatabase.child("pic").setValue(base64Image);
         System.out.println("Stored image with length: " + bytes.length);
     }
+
     //Fetchs images and displays it
     private void previewStoredFirebaseImage() {
         mDatabase.child("pic").addValueEventListener(new ValueEventListener() {
@@ -504,11 +540,15 @@ public class RegisterActivity extends AppCompatActivity {
         password = password.trim();
 
         if(email.isEmpty() || password.isEmpty() || passwordConfirm.isEmpty()){
-            Toast.makeText(RegisterActivity.this, "Ensure the field are filled!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(RegisterActivity.this, "Make sure requred fields are not empty!", Toast.LENGTH_SHORT).show();
         }else if(!password.equals(passwordConfirm)){
             Toast.makeText(RegisterActivity.this, "Password doesn't match", Toast.LENGTH_SHORT).show();
         }else{
             //Validation success
+            registrationContent.setProvName(email);
+
+            mDatabase.child("mac").setValue(registrationContent.getProvName());
+
             mAuth = FirebaseAuth.getInstance();
             mAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {

@@ -366,15 +366,17 @@ public class MainActivity extends AppCompatActivity {
             String last = c.format(a);
             float f = Float.parseFloat(last);
 
-            ProviderData newData1 = new ProviderData(R.drawable.finalimagetest1,", Kawangware, Dagoretti, Riara",  "Plumber, Electrician", "Evans Ouma", "-", f);
-            ProviderData newData2 = new ProviderData(R.drawable.image_placeholder,"Kawangware, Lavington, Karen",  "Plumber, Electrician", "Johnson", "-", f);
-            ProviderData newData3 = new ProviderData(R.drawable.finalimagetest3,"Umoja, Buru Buru",  "Plumber, Electrician", "Samuel China", "-", f);
+            //int, int, int, string, string, string, string, float
+            ProviderData newData1 = new ProviderData( R.drawable.finalimagetest1,", Kawangware, Dagoretti, Riara",  "Plumber, Electrician", "Evans Ouma", "-", f);
+            ProviderData newData2 = new ProviderData( R.drawable.image_placeholder,"Kawangware, Lavington, Karen",  "Plumber, Electrician", "Johnson", "-", f);
+            ProviderData newData3 = new ProviderData( R.drawable.finalimagetest3,"Umoja, Buru Buru",  "Plumber, Electrician", "Samuel China", "-", f);
             ProviderData newData4 = new ProviderData(R.drawable.logo_person,"Kawangware, Lavington, Karen",  "Plumber, Electrician", "Truphena Auma", "-", f);
             ProviderData newData5 = new ProviderData(R.drawable.finalimagetest1,"Kibera, Prestige, Ayany",  "Plumber, Electrician", "James Odongo", "-", f);
             ProviderData newData6 = new ProviderData(R.drawable.finalimagetest,"Ngong road, Kenyatta, Vall",  "Plumber, Electrician", "Evans Ouma", "-", f);
 
             ProviderData newData = new ProviderData(
                     //image details name favcount
+
                     R.drawable.displayprofimage,
                     "Kawangware, Lavington, Karen",
                     "Plumber, Electrician",

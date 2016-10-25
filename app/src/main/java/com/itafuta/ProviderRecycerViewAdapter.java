@@ -26,6 +26,7 @@ public class ProviderRecycerViewAdapter
     //Create the DataHolder and inside it  #Create its constructor (That matches )
     //This represents how the text will be displayed
     public class DataHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+
         ImageView providerImage;
         TextView providerLocation;
         TextView providerDetails;
@@ -36,6 +37,7 @@ public class ProviderRecycerViewAdapter
         //Adds the constructor for DataHolder class here
         public DataHolder(View itemView){
             super(itemView);
+
 
             providerImage = (ImageView) itemView.findViewById(R.id.imgProviderImage);
             providerLocation = (TextView) itemView.findViewById(R.id.txtProviderInfoLocation);

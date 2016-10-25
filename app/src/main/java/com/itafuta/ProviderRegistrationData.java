@@ -1,21 +1,24 @@
 package com.itafuta;
 
 /**
- * Created by victor on 9/19/16.
+ * Created by Victor on 25/10/2016.
  */
-public class ProviderData {
+
+
+
+public class ProviderRegistrationData{
 
 
     private String  provLocation, provName, provDetails, provFavCount;
-    int provImage;
+    int provImage, provIdFront,  providerIdBack;
     float provRate;
 
     //Empty constructor
-    ProviderData(){
+    ProviderRegistrationData(){
     }
 
     //int, int, int, string, string, string, string, float
-    ProviderData(int  mImage, String mLocation, String mDetails, String mName, String mFavCount, float mProvRate){
+    ProviderRegistrationData(int  mImage, int mIdFront, int mIdBack, String mLocation, String mDetails, String mName, String mFavCount, float mProvRate){
         this.provImage = mImage;
         this.provLocation = mLocation;
         this.provDetails = mDetails;
@@ -26,6 +29,12 @@ public class ProviderData {
 
     public int getProvImage(){
         return provImage;
+    }
+    public int getProvIdFront() {
+        return provIdFront;
+    }
+    public int getProviderIdBack() {
+        return providerIdBack;
     }
     public String getProvLocation() {
         return provLocation;
@@ -46,6 +55,12 @@ public class ProviderData {
     //SETTERS
     public void setProvImage(int image) {
         this.provImage = image;
+    }
+    public void setProvIdFront(int provIdFront) {
+        this.provIdFront = provIdFront;
+    }
+    public void setProviderIdBack(int providerIdBack) {
+        this.providerIdBack = providerIdBack;
     }
     public void setProvLocation(String provLocation) {
         this.provLocation = provLocation;

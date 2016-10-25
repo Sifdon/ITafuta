@@ -195,6 +195,7 @@ public class BlankFragment extends android.app.Fragment {
 
             ProviderData newData = new ProviderData(
                     //image details name favcount
+
                     R.drawable.user,
                     "Kawangware, Lavington, Karen",
                     "Plumber, Electrician",
