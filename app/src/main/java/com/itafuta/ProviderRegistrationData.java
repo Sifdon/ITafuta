@@ -9,8 +9,7 @@ package com.itafuta;
 public class ProviderRegistrationData{
 
 
-    private String  provLocation, provName, provDetails, provFavCount;
-    int provImage, provIdFront,  providerIdBack;
+    private String  provImage, provIdFront, providerIdBack, provLocation, provName, provDetails, provFavCount;
     float provRate;
 
     //Empty constructor
@@ -18,7 +17,7 @@ public class ProviderRegistrationData{
     }
 
     //int, int, int, string, string, string, string, float
-    ProviderRegistrationData(int  mImage, int mIdFront, int mIdBack, String mLocation, String mDetails, String mName, String mFavCount, float mProvRate){
+    ProviderRegistrationData(String  mImage, String mIdFront, int mIdBack, String mLocation, String mDetails, String mName, String mFavCount, float mProvRate){
         this.provImage = mImage;
         this.provLocation = mLocation;
         this.provDetails = mDetails;
@@ -27,13 +26,13 @@ public class ProviderRegistrationData{
         this.provRate = mProvRate;
     }
 
-    public int getProvImage(){
+    public String getProvImage(){
         return provImage;
     }
-    public int getProvIdFront() {
+    public String getProvIdFront() {
         return provIdFront;
     }
-    public int getProviderIdBack() {
+    public String getProviderIdBack() {
         return providerIdBack;
     }
     public String getProvLocation() {
@@ -53,13 +52,13 @@ public class ProviderRegistrationData{
     }
 
     //SETTERS
-    public void setProvImage(int image) {
+    public void setProvImage(String image) {
         this.provImage = image;
     }
-    public void setProvIdFront(int provIdFront) {
+    public void setProvIdFront(String provIdFront) {
         this.provIdFront = provIdFront;
     }
-    public void setProviderIdBack(int providerIdBack) {
+    public void setProviderIdBack(String providerIdBack) {
         this.providerIdBack = providerIdBack;
     }
     public void setProvLocation(String provLocation) {

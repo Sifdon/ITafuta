@@ -86,7 +86,7 @@ public class LoginActivity extends AppCompatActivity {
             Log.d(TAG, "Either password of email field is not filled");
             AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
             builder.setMessage("Error")
-                    .setTitle("Fill all field required")
+                    .setTitle("Fill all required fields")
                     .setPositiveButton(android.R.string.ok, null);
             AlertDialog dialog = builder.create();
             dialog.show();

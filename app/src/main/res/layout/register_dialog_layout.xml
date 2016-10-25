@@ -177,7 +177,7 @@
                 android:prompt="@string/prompt_zone" />
 
             <Button
-                android:id="@+id/btnUploadImage"
+                android:id="@+id/btnUploadImageIdFront"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/activity_horizontal_margin"
@@ -188,7 +188,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/activity_horizontal_margin"
-                android:layout_below="@id/btnUploadImage"
+                android:layout_below="@id/btnUploadImageIdFront"
                 android:text="Upload Id Back"/>
 
         <ImageView

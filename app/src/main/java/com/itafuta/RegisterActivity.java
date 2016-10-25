@@ -50,15 +50,26 @@ public class RegisterActivity extends AppCompatActivity {
 
     //-------------CAMERA--------
     private ArrayList<Image> images = new ArrayList<>();
+    private ArrayList<Image> imagesIdFront = new ArrayList<>();
+    private ArrayList<Image> imagesIdBack = new ArrayList<>();
 
     private int REQUEST_CODE_PICKER = 2000;
+    private int REQUEST_CODE_PICKER_ID_FRONT = 2001;
+    private int REQUEST_CODE_PICKER_ID_BACK = 2002;
     ImageView mLoadedImage;
-    Image x;
+    Image x, y, z;
 
 
 
     String filePath;
     //-------------CAMERA--------
+
+
+    //Images
+    //String base64Image;
+    String base64ProfileImage;
+    String base64IdFrontImage;
+    String base64IdBackImage;
 
     int checksCount;
 
@@ -79,13 +90,18 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.register_dialog_layout);
         Log.d(TAG, "You got into RegisterActivity");
 
+        registrationContent = new ProviderRegistrationData();
+        //ProviderRegistrationData(int  mImage, int mIdFront, int mIdBack, String mLocation, String mDetails, String mName, String mFavCount, float mProvRate)
+
+
+
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
         //mDatabase.keepSynced(true);
         //mDbRef = mDatabase.getReference();
 
         mAuth = FirebaseAuth.getInstance();
-        Log.d(TAG, "Instantianted firebase authentaction");
+        Log.d(TAG, "Instantianted firebase authentication");
 
         //Reference all widgets
         editSignupEmail = (EasyFormEditText) findViewById(R.id.edit_signup_email);
@@ -94,19 +110,31 @@ public class RegisterActivity extends AppCompatActivity {
 
         btnUploadPhoto = (Button) findViewById(R.id.btnUploadProfPhoto);
         btnUploadIdBack = (Button) findViewById(R.id.btnUploadImageIdBack);
+        btnUploadIdFront = (Button) findViewById(R.id.btnUploadImageIdFront);
+        btnSignup = (Button) findViewById(R.id.btn_signup);
+
+        btnUploadPhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                pickingProfileImage();
+            }
+        });
+
+        btnUploadIdFront.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                pickingIdFrontImage();
+            }
+        });
 
         btnUploadIdBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                pickingImage();
+                pickingIdBackImage();
             }
         });
 
 
-
-
-
-        btnSignup = (Button) findViewById(R.id.btn_signup);
         btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -180,39 +208,6 @@ public class RegisterActivity extends AppCompatActivity {
         //====================End This was updating my things=======================================
         //==========================================================================================
 
-
-
-        /*
-        mAuth.signInWithEmailAndPassword("james2@yahoo.com", "james1234")
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (!task.isSuccessful()){
-                            //Incase you get error signing in
-                            Toast.makeText(RegisterActivity.this, "Error in signing in", Toast.LENGTH_SHORT).show();
-
-                        }
-                        else{
-                            //TextView mText = (TextView) findViewById(R.id.txtDummy);
-                            //mText.setText("");
-                            Toast.makeText(RegisterActivity.this, "You have been signed in james", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                }
-        );
-        */
-
-        /*
-
-
-        if (mAuth.getCurrentUser() != null) {
-            // User is logged in
-            TextView mText = (TextView) findViewById(R.id.txtDummy);
-
-            FirebaseUser cUser = mAuth.getCurrentUser();
-            mText.setText(cUser.getDisplayName());
-        }
-        */
 
         //signInAnonymously();
         //-----------------------------
@@ -313,11 +308,12 @@ public class RegisterActivity extends AppCompatActivity {
         */
 
 
-
+        mLoadedImage = (ImageView) findViewById(R.id.imgLoadedImage);
 
         //-------------Upload inmages buttons -----------------------------------
+        /*
         Button upLoadImage = (Button) findViewById(R.id.btnUploadImage);
-        mLoadedImage = (ImageView) findViewById(R.id.imgLoadedImage);
+
 
         assert upLoadImage!= null;
         upLoadImage.setOnClickListener(new View.OnClickListener() {
@@ -341,11 +337,13 @@ public class RegisterActivity extends AppCompatActivity {
 
             }
         });
-
-
+        */
     }
 
-    public void pickingImage(){
+
+
+    //============== LAUNCHING AN IMAGE PICKER ACTIVITY
+    public void pickingProfileImage(){
         ImagePicker.create(RegisterActivity.this)
                 .folderMode(true) // folder mode (false by default)
                 .folderTitle("Folder") // folder selection title
@@ -358,6 +356,35 @@ public class RegisterActivity extends AppCompatActivity {
                 .origin(images) // original selected images, used in multi mode
                 .start(REQUEST_CODE_PICKER); // start image picker activity with request code
     }
+    public void pickingIdFrontImage(){
+        ImagePicker.create(RegisterActivity.this)
+                .folderMode(true) // folder mode (false by default)
+                .folderTitle("Folder") // folder selection title
+                .imageTitle("Tap to select") // image selection title
+                .single() // single mode
+                .multi() // multi mode (default mode)
+                .limit(1) // max images can be selected (99 by default)
+                .showCamera(true) // show camera or not (true by default)
+                .imageDirectory("Camera") // directory name for captured image  ("Camera" folder by default)
+                .origin(imagesIdFront) // original selected images, used in multi mode
+                .start(REQUEST_CODE_PICKER_ID_FRONT); // start image picker activity with request code
+    }
+    public void pickingIdBackImage(){
+        ImagePicker.create(RegisterActivity.this)
+                .folderMode(true) // folder mode (false by default)
+                .folderTitle("Folder") // folder selection title
+                .imageTitle("Tap to select") // image selection title
+                .single() // single mode
+                .multi() // multi mode (default mode)
+                .limit(1) // max images can be selected (99 by default)
+                .showCamera(true) // show camera or not (true by default)
+                .imageDirectory("Camera") // directory name for captured image  ("Camera" folder by default)
+                .origin(imagesIdBack) // original selected images, used in multi mode
+                .start(REQUEST_CODE_PICKER_ID_BACK); // start image picker activity with request code
+    }
+
+    //================= END IMAGE PICKERS =================================================
+
 
 
 
@@ -431,7 +458,12 @@ public class RegisterActivity extends AppCompatActivity {
     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        base64ProfileImage = "--";
+        base64IdFrontImage = "==";
+        base64IdBackImage = "**";
         if (requestCode == REQUEST_CODE_PICKER && resultCode == RESULT_OK && data != null) {
+
             ArrayList<Image> images = data.getParcelableArrayListExtra(ImagePickerActivity.INTENT_EXTRA_SELECTED_IMAGES);
             // do your logic ....
 
@@ -442,19 +474,53 @@ public class RegisterActivity extends AppCompatActivity {
                 Toast.makeText(RegisterActivity.this, ""+x.getPath(), Toast.LENGTH_SHORT).show();
 
                 mLoadedImage.setVisibility(View.VISIBLE);
-                BitmapFactory.Options options = new BitmapFactory.Options();
-                options.inSampleSize = 8;
 
-                bitmap = BitmapFactory.decodeFile(filePath, options);
-                storeImageToFirebase();
+                //Get the profile image base64 image as a string
+
+                getProfileImage();
                 previewStoredFirebaseImage();
                 mLoadedImage.setImageBitmap(bitmap);
 
             }
+        }
+        if (requestCode == REQUEST_CODE_PICKER_ID_FRONT && resultCode == RESULT_OK && data != null) {
+            ArrayList<Image> images2 = data.getParcelableArrayListExtra(ImagePickerActivity.INTENT_EXTRA_SELECTED_IMAGES);
+            // do your logic ....
 
+            if (images2.size()!= 0) {
+
+                y  = images2.get(0);
+                filePath = x.getPath();
+                Toast.makeText(RegisterActivity.this, ""+x.getPath(), Toast.LENGTH_SHORT).show();
+
+                mLoadedImage.setVisibility(View.VISIBLE);
+
+                //Get the ID FRONT image base64 image as a string
+                getIdFrontImage();
+            }
+        }
+        if (requestCode == REQUEST_CODE_PICKER_ID_BACK && resultCode == RESULT_OK && data != null) {
+            ArrayList<Image> images3 = data.getParcelableArrayListExtra(ImagePickerActivity.INTENT_EXTRA_SELECTED_IMAGES);
+            // do your logic ....
+
+            if (images3.size()!= 0) {
+
+                z  = images3.get(0);
+                filePath = x.getPath();
+                Toast.makeText(RegisterActivity.this, ""+x.getPath(), Toast.LENGTH_SHORT).show();
+
+                mLoadedImage.setVisibility(View.VISIBLE);
+
+                //Get the ID BACK image base64 image as a string
+                getIdBackImage();
+
+            }
         }
     }
 
+
+    /*
+    //================ STORING BASE64IMAGE TO FIREBASE ==============
     private void storeImageToFirebase() {
         BitmapFactory.Options options = new BitmapFactory.Options();
         //options.inSampleSize = 8; // shrink it down otherwise we will use stupid amounts of memory
@@ -467,12 +533,70 @@ public class RegisterActivity extends AppCompatActivity {
         //bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
         byte[] bytes = baos.toByteArray();
-        String base64Image = Base64.encodeToString(bytes, Base64.DEFAULT);
+        base64Image = Base64.encodeToString(bytes, Base64.DEFAULT);
 
         // we finally have our base64 string version of the image, save it.
         mDatabase.child("pic").setValue(base64Image);
         System.out.println("Stored image with length: " + bytes.length);
     }
+    //================ STORING BASE64IMAGE TO FIREBASE ==============
+    */
+    // ================ STORING BASE64IMAGE TO FIREBASE ==============
+    private void getProfileImage() {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        //options.inSampleSize = 8; // shrink it down otherwise we will use stupid amounts of memory
+        options.inSampleSize = 16; // shrink it down otherwise we will use stupid amounts of memory
+        //options.inSampleSize = 2; // This wa eaating my memory
+
+
+        Bitmap bitmap = BitmapFactory.decodeFile(filePath, options);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        //bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte[] bytes = baos.toByteArray();
+
+        //Base 64 image
+        base64ProfileImage = Base64.encodeToString(bytes, Base64.DEFAULT);
+        System.out.println("Stored image with length: " + bytes.length);
+    }
+    //================ STORING BASE64IMAGE TO FIREBASE ==============
+
+
+    private void getIdFrontImage() {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        //options.inSampleSize = 8; // shrink it down otherwise we will use stupid amounts of memory
+        options.inSampleSize = 16; // shrink it down otherwise we will use stupid amounts of memory
+        //options.inSampleSize = 2; // This wa eaating my memory
+
+
+        Bitmap bitmap = BitmapFactory.decodeFile(filePath, options);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        //bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte[] bytes = baos.toByteArray();
+
+        // we finally have our base64 string version of the image.
+        base64IdFrontImage = Base64.encodeToString(bytes, Base64.DEFAULT);
+    }
+
+    private void getIdBackImage() {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        //options.inSampleSize = 8; // shrink it down otherwise we will use stupid amounts of memory
+        options.inSampleSize = 16; // shrink it down otherwise we will use stupid amounts of memory
+        //options.inSampleSize = 2; // This wa eaating my memory
+
+
+        Bitmap bitmap = BitmapFactory.decodeFile(filePath, options);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        //bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte[] bytes = baos.toByteArray();
+
+        // we finally have our base64 string version of the image, save it.
+        base64IdBackImage = Base64.encodeToString(bytes, Base64.DEFAULT);
+
+    }
+
 
     //Fetchs images and displays it
     private void previewStoredFirebaseImage() {
@@ -545,9 +669,9 @@ public class RegisterActivity extends AppCompatActivity {
             Toast.makeText(RegisterActivity.this, "Password doesn't match", Toast.LENGTH_SHORT).show();
         }else{
             //Validation success
-            registrationContent.setProvName(email);
+            //registrationContent.setProvName(email);
 
-            mDatabase.child("mac").setValue(registrationContent.getProvName());
+            mDatabase.child("mac").setValue(email);
 
             mAuth = FirebaseAuth.getInstance();
             mAuth.createUserWithEmailAndPassword(email, password)
@@ -560,6 +684,9 @@ public class RegisterActivity extends AppCompatActivity {
                                         Toast.LENGTH_SHORT).show();
                             }else {
                                 Log.d(TAG, "User validated. Authenticated successfully!");
+
+                                registerData();
+
                                 mAuth.signOut();
                                 Intent goToLogin = new Intent(RegisterActivity.this, MainActivity.class);
                                 startActivity(goToLogin);
@@ -568,5 +695,31 @@ public class RegisterActivity extends AppCompatActivity {
                         }
                     });
         }
+    }
+
+
+    public void registerData(){
+        Toast.makeText(RegisterActivity.this, base64IdBackImage, Toast.LENGTH_SHORT).show();
+        registrationContent.setProvImage(base64ProfileImage);
+        registrationContent.setProvIdFront(base64IdFrontImage);
+        registrationContent.setProviderIdBack(base64IdBackImage);
+        registrationContent.setProvLocation("LIMURU, kikuyu, Kawangware");
+        registrationContent.setProvDetails("Carpenter");
+        registrationContent.setProvName("My Name");
+        registrationContent.setProvFavCount("true");
+        registrationContent.setProvRate(6);
+
+        Map<String, Object> postValues = new HashMap<>();
+        postValues.put("profPhoto", registrationContent.getProvImage());
+        postValues.put("username", registrationContent.getProvName());
+        postValues.put("idFront", registrationContent.getProvIdFront());
+        postValues.put("idback", registrationContent.getProviderIdBack());
+        postValues.put("location",  registrationContent.getProvLocation());
+        postValues.put("details", registrationContent.getProvName());
+        postValues.put("favourite", registrationContent.getProvFavCount());
+        postValues.put("rating", registrationContent.getProvRate());
+
+        String uid= mAuth.getCurrentUser().getUid();
+        mDatabase.child("providers final").push().child(uid).updateChildren(postValues);
     }
 }
