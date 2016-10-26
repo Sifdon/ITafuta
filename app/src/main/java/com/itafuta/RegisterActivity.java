@@ -10,14 +10,18 @@ import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.emmasuzuki.easyform.EasyFormEditText;
 import com.emmasuzuki.easyform.EasyTextInputLayout;
+import com.google.android.gms.common.data.DataBufferObserver;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -43,6 +47,8 @@ public class RegisterActivity extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener mAuthListener;
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
+
+    DatabaseReference tempRef; //Where to store temporary data
 
     private ProviderRegistrationData registrationContent;
 
@@ -71,7 +77,8 @@ public class RegisterActivity extends AppCompatActivity {
     String base64IdFrontImage;
     String base64IdBackImage;
 
-    int checksCount;
+    int checksCount = 0;
+    int checksLimitCount;
 
     //Widgets references
     EasyFormEditText editSignupEmail;
@@ -83,6 +90,10 @@ public class RegisterActivity extends AppCompatActivity {
     Button btnUploadIdFront;
     Button btnUploadIdBack;
     Button btnSignup;
+
+    Spinner spnLocation;
+
+    Map<String, Object> myOccupations;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +108,10 @@ public class RegisterActivity extends AppCompatActivity {
 
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
+        tempRef = mDatabase.child("images loading").push(); //Temporary registration data place
+        myOccupations = new HashMap<String, Object>();
+
+
         //mDatabase.keepSynced(true);
         //mDbRef = mDatabase.getReference();
 
@@ -112,7 +127,9 @@ public class RegisterActivity extends AppCompatActivity {
         btnUploadIdBack = (Button) findViewById(R.id.btnUploadImageIdBack);
         btnUploadIdFront = (Button) findViewById(R.id.btnUploadImageIdFront);
         btnSignup = (Button) findViewById(R.id.btn_signup);
+        spnLocation = (Spinner) findViewById(R.id.spinnerPlacesRegistration);
 
+        //upload profile photo
         btnUploadPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -120,6 +137,7 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
+        //Load front id image
         btnUploadIdFront.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -127,6 +145,7 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
+        //load back image
         btnUploadIdBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -134,14 +153,29 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
+        //Get item from the location spinner
+        spnLocation.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                String itemPlace = adapterView.getSelectedItem().toString();
+                Toast.makeText(RegisterActivity.this, itemPlace, Toast.LENGTH_SHORT).show();
+                tempRef.child("location").setValue(itemPlace);
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+
+        //Submit registration data at sign up
         btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 validate();
             }
         });
-
 
 
         /*
@@ -340,6 +374,31 @@ public class RegisterActivity extends AppCompatActivity {
         */
     }
 
+    //======================Listen for extra clicked item===========================================
+    CheckBox[] cba;
+    CompoundButton.OnCheckedChangeListener cbListener = new CompoundButton.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            checkEnoughAndMakeDisabled(cba);
+        }
+    };
+
+    private void checkEnoughAndMakeDisabled(CheckBox checkBoxes[]){
+        checksLimitCount = 0;
+        for (CheckBox cb:checkBoxes){
+            cb.setEnabled(true);
+            if (cb.isChecked()) checksLimitCount++;
+        }
+        //your variable
+        if (3 <= checksLimitCount) {
+            for (CheckBox cb:checkBoxes){
+                if (!cb.isChecked())cb.setEnabled(false);
+            }
+            Toast.makeText(RegisterActivity.this, "Only three roles allowed", Toast.LENGTH_SHORT).show();
+        }
+    }
+    //======================Listen for extra clicked item===========================================
+
 
 
     //============== LAUNCHING AN IMAGE PICKER ACTIVITY
@@ -402,11 +461,13 @@ public class RegisterActivity extends AppCompatActivity {
                 case R.id.checkbox_plumber:
                     if (checked) {
                         checksCount ++;
+                        myOccupations.put("plumber", true);
                         Toast.makeText(RegisterActivity.this, checksCount + "", Toast.LENGTH_SHORT).show();
                     }
                     // Put some meat on the sandwich
                     else {
 //                    checksCount = checksCount - 1;
+                        myOccupations.remove("plumber");
                         Toast.makeText(RegisterActivity.this, checksCount + "", Toast.LENGTH_SHORT).show();
                     }
                     // Remove the meat
@@ -414,11 +475,13 @@ public class RegisterActivity extends AppCompatActivity {
                 case R.id.checkbox_carpenter:
                     if (checked) {
                         checksCount ++;
+                        myOccupations.put("carpenter", true);
                         Toast.makeText(RegisterActivity.this, checksCount + "", Toast.LENGTH_SHORT).show();
                     }
                     // Put some meat on the sandwich
                     else {
 //                    checksCount = checksCount - 1;
+                        myOccupations.remove("carpenter");
                         Toast.makeText(RegisterActivity.this, checksCount + "", Toast.LENGTH_SHORT).show();
                     }
                     // Remove the meat
@@ -426,36 +489,63 @@ public class RegisterActivity extends AppCompatActivity {
                 case R.id.checkbox_painter:
                     if (checked) {
                         checksCount ++;
+                        myOccupations.put("painter", true);
                         Toast.makeText(RegisterActivity.this, checksCount + "", Toast.LENGTH_SHORT).show();
                     }
                     // Put some meat on the sandwich
                     else {
 //                    checksCount = checksCount - 1;
+                        myOccupations.remove("painter");
                         Toast.makeText(RegisterActivity.this, checksCount + "", Toast.LENGTH_SHORT).show();
                     }
                     // Remove the meat
                     break;
                 case R.id.checkbox_houseagents:
                     if (checked) {
+                        myOccupations.put("house agent", true);
+                        tempRef.child("occupation").updateChildren(myOccupations);
                         checksCount = checksCount ++;
                         Toast.makeText(RegisterActivity.this, checksCount + "", Toast.LENGTH_SHORT).show();
                     }
                     // Put some meat on the sandwich
                     else {
 //                    checksCount = checksCount - 1;
+                        myOccupations.remove("house agent");
                         Toast.makeText(RegisterActivity.this, checksCount + "", Toast.LENGTH_SHORT).show();
                     }
                     // Remove the meat
                     break;
             }
-        }
-    /*
 
+
+
+        //======================== Set the checkbox limits to 3 ================================
+        cba = new CheckBox[]{
+                (CheckBox) findViewById(R.id.checkbox_plumber),
+                (CheckBox) findViewById(R.id.checkbox_carpenter),
+                (CheckBox) findViewById(R.id.checkbox_painter),
+                (CheckBox) findViewById(R.id.checkbox_houseagents),
+                (CheckBox) findViewById(R.id.checkbox_carpetcleaning),
+                (CheckBox) findViewById(R.id.checkbox_mamanguo),
+                (CheckBox) findViewById(R.id.checkbox_garbagecollectors),
+                (CheckBox) findViewById(R.id.checkbox_mechanic),
+                (CheckBox) findViewById(R.id.checkbox_mover),
+                (CheckBox) findViewById(R.id.checkbox_waterdelivery)
+        };
+        //here set onCheckedChange for all your checkboxes
+        for (CheckBox cb:cba) {
+            cb.setOnCheckedChangeListener(cbListener);
+        }
+
+        //========================  End the checked listener =====================================
+
+    /*
     else{
             Toast.makeText(RegisterActivity.this, "Only three roles allowed", Toast.LENGTH_SHORT).show();
         }
-    }
     */
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -603,7 +693,6 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     public void temporalImageUpload(String tempImage){
-        DatabaseReference tempRef = mDatabase.child("images loading");
 
         if (tempImage.equals(base64ProfileImage)){
             tempRef.child("tempProfileImage").setValue(base64ProfileImage);
@@ -720,6 +809,10 @@ public class RegisterActivity extends AppCompatActivity {
 
     public void registerData(){
         Toast.makeText(RegisterActivity.this, base64IdBackImage, Toast.LENGTH_SHORT).show();
+
+        // Get all the temporary data from the reference
+        //And update it in the new record during signup
+
         registrationContent.setProvImage(base64ProfileImage);
         registrationContent.setProvIdFront(base64IdFrontImage);
         registrationContent.setProviderIdBack(base64IdBackImage);
