@@ -350,7 +350,7 @@ public class RegisterActivity extends AppCompatActivity {
                 .imageTitle("Tap to select") // image selection title
                 .single() // single mode
                 .multi() // multi mode (default mode)
-                .limit(1) // max images can be selected (99 by default)
+                .limit(3) // max images can be selected (99 by default)
                 .showCamera(true) // show camera or not (true by default)
                 .imageDirectory("Camera") // directory name for captured image  ("Camera" folder by default)
                 .origin(images) // original selected images, used in multi mode
@@ -363,10 +363,10 @@ public class RegisterActivity extends AppCompatActivity {
                 .imageTitle("Tap to select") // image selection title
                 .single() // single mode
                 .multi() // multi mode (default mode)
-                .limit(1) // max images can be selected (99 by default)
+                .limit(3) // max images can be selected (99 by default)
                 .showCamera(true) // show camera or not (true by default)
                 .imageDirectory("Camera") // directory name for captured image  ("Camera" folder by default)
-                .origin(imagesIdFront) // original selected images, used in multi mode
+                .origin(images) // original selected images, used in multi mode
                 .start(REQUEST_CODE_PICKER_ID_FRONT); // start image picker activity with request code
     }
     public void pickingIdBackImage(){
@@ -376,10 +376,10 @@ public class RegisterActivity extends AppCompatActivity {
                 .imageTitle("Tap to select") // image selection title
                 .single() // single mode
                 .multi() // multi mode (default mode)
-                .limit(1) // max images can be selected (99 by default)
+                .limit(3) // max images can be selected (99 by default)
                 .showCamera(true) // show camera or not (true by default)
                 .imageDirectory("Camera") // directory name for captured image  ("Camera" folder by default)
-                .origin(imagesIdBack) // original selected images, used in multi mode
+                .origin(images) // original selected images, used in multi mode
                 .start(REQUEST_CODE_PICKER_ID_BACK); // start image picker activity with request code
     }
 
@@ -462,14 +462,15 @@ public class RegisterActivity extends AppCompatActivity {
         base64ProfileImage = "--";
         base64IdFrontImage = "==";
         base64IdBackImage = "**";
+
         if (requestCode == REQUEST_CODE_PICKER && resultCode == RESULT_OK && data != null) {
 
-            ArrayList<Image> images = data.getParcelableArrayListExtra(ImagePickerActivity.INTENT_EXTRA_SELECTED_IMAGES);
+            images = data.getParcelableArrayListExtra(ImagePickerActivity.INTENT_EXTRA_SELECTED_IMAGES);
             // do your logic ....
 
             if (images.size()!= 0) {
-
-                x  = images.get(0);
+                int lastItem = images.size() - 1;
+                x  = images.get(lastItem);
                 filePath = x.getPath();
                 Toast.makeText(RegisterActivity.this, ""+x.getPath(), Toast.LENGTH_SHORT).show();
 
@@ -484,12 +485,13 @@ public class RegisterActivity extends AppCompatActivity {
             }
         }
         if (requestCode == REQUEST_CODE_PICKER_ID_FRONT && resultCode == RESULT_OK && data != null) {
-            ArrayList<Image> images2 = data.getParcelableArrayListExtra(ImagePickerActivity.INTENT_EXTRA_SELECTED_IMAGES);
+            images = data.getParcelableArrayListExtra(ImagePickerActivity.INTENT_EXTRA_SELECTED_IMAGES);
             // do your logic ....
 
-            if (images2.size()!= 0) {
+            if (images.size()!= 0) {
 
-                y  = images2.get(0);
+                int lastItem = images.size() - 1;
+                x  = images.get(lastItem);
                 filePath = x.getPath();
                 Toast.makeText(RegisterActivity.this, ""+x.getPath(), Toast.LENGTH_SHORT).show();
 
@@ -500,20 +502,20 @@ public class RegisterActivity extends AppCompatActivity {
             }
         }
         if (requestCode == REQUEST_CODE_PICKER_ID_BACK && resultCode == RESULT_OK && data != null) {
-            ArrayList<Image> images3 = data.getParcelableArrayListExtra(ImagePickerActivity.INTENT_EXTRA_SELECTED_IMAGES);
+            images = data.getParcelableArrayListExtra(ImagePickerActivity.INTENT_EXTRA_SELECTED_IMAGES);
             // do your logic ....
 
-            if (images3.size()!= 0) {
+            if (images.size()!= 0) {
 
-                z  = images3.get(0);
+                int lastItem = images.size() - 1;
+                x  = images.get(lastItem);
                 filePath = x.getPath();
                 Toast.makeText(RegisterActivity.this, ""+x.getPath(), Toast.LENGTH_SHORT).show();
 
                 mLoadedImage.setVisibility(View.VISIBLE);
 
-                //Get the ID BACK image base64 image as a string
+                //Get the ID FRONT image base64 image as a string
                 getIdBackImage();
-
             }
         }
     }
@@ -557,6 +559,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         //Base 64 image
         base64ProfileImage = Base64.encodeToString(bytes, Base64.DEFAULT);
+        temporalImageUpload(base64ProfileImage);
         System.out.println("Stored image with length: " + bytes.length);
     }
     //================ STORING BASE64IMAGE TO FIREBASE ==============
@@ -577,6 +580,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         // we finally have our base64 string version of the image.
         base64IdFrontImage = Base64.encodeToString(bytes, Base64.DEFAULT);
+        temporalImageUpload(base64IdFrontImage);
     }
 
     private void getIdBackImage() {
@@ -594,8 +598,24 @@ public class RegisterActivity extends AppCompatActivity {
 
         // we finally have our base64 string version of the image, save it.
         base64IdBackImage = Base64.encodeToString(bytes, Base64.DEFAULT);
+        temporalImageUpload(base64IdBackImage);
 
     }
+
+    public void temporalImageUpload(String tempImage){
+        DatabaseReference tempRef = mDatabase.child("images loading");
+
+        if (tempImage.equals(base64ProfileImage)){
+            tempRef.child("tempProfileImage").setValue(base64ProfileImage);
+        }
+        if (tempImage.equals(base64IdFrontImage)) {
+            tempRef.child("tempIdFront").setValue(base64IdFrontImage);
+        }
+        if (tempImage.equals(base64IdBackImage)) {
+            tempRef.child("tempIdBack").setValue(base64IdBackImage);
+        }
+    }
+
 
 
     //Fetchs images and displays it
