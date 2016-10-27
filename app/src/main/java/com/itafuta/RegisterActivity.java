@@ -3,6 +3,7 @@ package com.itafuta;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.icu.util.RangeValueIterator;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -37,8 +38,10 @@ import com.nguyenhoanglam.imagepicker.activity.ImagePickerActivity;
 import com.nguyenhoanglam.imagepicker.model.Image;
 
 import java.io.ByteArrayOutputStream;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -49,6 +52,7 @@ public class RegisterActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
 
     DatabaseReference tempRef; //Where to store temporary data
+    String tempRefKey;  //The key to the temporary data
 
     private ProviderRegistrationData registrationContent;
 
@@ -76,6 +80,12 @@ public class RegisterActivity extends AppCompatActivity {
     String base64ProfileImage;
     String base64IdFrontImage;
     String base64IdBackImage;
+
+
+    String finalUploadLocation;
+    Map<String, Object> myMainData; // List of final occupations
+    Map<String, Object> myOccupationsFinalUpload; // List of final occupations
+
 
     int checksCount = 0;
     int checksLimitCount;
@@ -109,7 +119,10 @@ public class RegisterActivity extends AppCompatActivity {
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
         tempRef = mDatabase.child("images loading").push(); //Temporary registration data place
-        myOccupations = new HashMap<String, Object>();
+        tempRefKey = tempRef.getKey();
+        myOccupations = new HashMap<>();
+        myMainData = new HashMap<>();
+        myOccupationsFinalUpload = new HashMap<>();
 
 
         //mDatabase.keepSynced(true);
@@ -811,13 +824,18 @@ public class RegisterActivity extends AppCompatActivity {
         Toast.makeText(RegisterActivity.this, base64IdBackImage, Toast.LENGTH_SHORT).show();
 
         // Get all the temporary data from the reference
-        //And update it in the new record during signup
+        //And update it in the registration content during signup
+        Log.d(TAG, "+++++++++++");
+        getThatTempData();
 
         registrationContent.setProvImage(base64ProfileImage);
         registrationContent.setProvIdFront(base64IdFrontImage);
         registrationContent.setProviderIdBack(base64IdBackImage);
-        registrationContent.setProvLocation("LIMURU, kikuyu, Kawangware");
-        registrationContent.setProvDetails("Carpenter");
+        registrationContent.setProvLocation(finalUploadLocation);
+
+        //loadingOccupations();
+
+        registrationContent.setProvOccupation(myOccupationsFinalUpload); //This is a map of occupations
         registrationContent.setProvName("My Name");
         registrationContent.setProvFavCount("true");
         registrationContent.setProvRate(6);
@@ -828,11 +846,83 @@ public class RegisterActivity extends AppCompatActivity {
         postValues.put("idFront", registrationContent.getProvIdFront());
         postValues.put("idback", registrationContent.getProviderIdBack());
         postValues.put("location",  registrationContent.getProvLocation());
-        postValues.put("details", registrationContent.getProvName());
+        postValues.put("occupation", registrationContent.getProvOccupation());
         postValues.put("favourite", registrationContent.getProvFavCount());
         postValues.put("rating", registrationContent.getProvRate());
 
-        String uid= mAuth.getCurrentUser().getUid();
+        String uid= mAuth.getCurrentUser().getUid(); //Get the userid as at registration so that he is registered
         mDatabase.child("providers final").push().child(uid).updateChildren(postValues);
+    }
+
+    public void getThatTempData(){
+        Log.d(TAG, "=============Getting you temporary data=================");
+        tempRef.addValueEventListener(new ValueEventListener() {
+                                           @Override
+                                           public void onDataChange(DataSnapshot dataSnapshot) {
+                                               Log.d(TAG, "==============Inside Temporary data ===================");
+                                               Log.d(TAG, "==============DATA SNASPSHOT Is ===" + dataSnapshot.getValue());
+                                               myMainData = (Map<String, Object>) dataSnapshot.getValue();
+                                               Log.d(TAG, myMainData.get("location").toString());
+                                               Log.d(TAG, "================= The above is the location =========");
+                                               //if (dataSnapshot.getKey().equals("occupation")){
+                                               /*
+                                               for(DataSnapshot items : dataSnapshot.getChildren()){
+                                                   Log.d(TAG, "==============Looping data Temporary data ===================");
+
+                                                   myMainData = (Map<String, Object>) items.getValue(); //.java.lang.ClassCastException: java.lang.String cannot be cast to java.util.Map
+                                                   Log.d(TAG, myMainData.toString()+"=============IS ONE ITEM====================");
+                                                   finalUploadLocation= (String) myOccupationsFinalUpload.get("location");
+                                                   Toast.makeText(RegisterActivity.this, finalUploadLocation, Toast.LENGTH_SHORT).show();
+
+                                               }
+                                               */
+
+
+                                               /*
+                                               if (("occupation").equals(dataSnapshot.getKey())){
+                                                   //get items under occupations
+                                                   //It is a list so get it wisely
+                                                   loadingOccupations();
+                                               }*/
+
+
+                                           }
+
+                                           @Override
+                                           public void onCancelled(DatabaseError databaseError) {
+
+                                           }
+                                       }
+                );
+
+    }
+
+
+    public void loadingOccupations(){
+        //============== Adding final upload occupation code ==================
+        final DatabaseReference mRefOccupation = mDatabase.child("image loading").child(tempRef.getKey()).child("occupation");
+        mRefOccupation.addValueEventListener(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot occupationSnapshot) {
+                        //Get a map of the occupations
+                        //And turn it to a list
+                        for(DataSnapshot myData : occupationSnapshot.getChildren()) {
+
+                            myOccupationsFinalUpload = (Map<String, Object>)myData.getValue();
+                            Toast.makeText(RegisterActivity.this, myOccupationsFinalUpload.get("plumber").toString(), Toast.LENGTH_SHORT).show();
+
+                            //myOccupationsFinalUpload = new ArrayList<>(td.values());
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                }
+        );
+        //============== Adding final upload occupation code ==================
     }
 }

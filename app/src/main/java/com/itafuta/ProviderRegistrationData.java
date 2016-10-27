@@ -1,5 +1,8 @@
 package com.itafuta;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * Created by Victor on 25/10/2016.
  */
@@ -11,19 +14,21 @@ public class ProviderRegistrationData{
 
     private String  provImage, provIdFront, providerIdBack, provLocation, provName, provDetails, provFavCount;
     float provRate;
+    Map<String, Object> provOccupation;
 
     //Empty constructor
     ProviderRegistrationData(){
     }
 
     //int, int, int, string, string, string, string, float
-    ProviderRegistrationData(String  mImage, String mIdFront, int mIdBack, String mLocation, String mDetails, String mName, String mFavCount, float mProvRate){
+    ProviderRegistrationData(String  mImage, String mIdFront, int mIdBack, Map<String, Object> mOccupation, String mLocation, String mDetails, String mName, String mFavCount, float mProvRate){
         this.provImage = mImage;
         this.provLocation = mLocation;
         this.provDetails = mDetails;
         this.provName = mName;
         this.provFavCount= mFavCount;
         this.provRate = mProvRate;
+        this.provOccupation =  mOccupation;
     }
 
     public String getProvImage(){
@@ -37,6 +42,9 @@ public class ProviderRegistrationData{
     }
     public String getProvLocation() {
         return provLocation;
+    }
+    public Map<String, Object> getProvOccupation() {
+        return provOccupation;
     }
     public String getProvDetails(){
         return provDetails;
@@ -64,6 +72,9 @@ public class ProviderRegistrationData{
     public void setProvLocation(String provLocation) {
         this.provLocation = provLocation;
     }
+    public void setProvOccupation(Map<String, Object> provOccupation) {
+        this.provOccupation = provOccupation;
+    }
     public void setProvDetails(String details){
         this.provDetails = details;
     }
@@ -76,4 +87,8 @@ public class ProviderRegistrationData{
     public void setProvRate(float provRate) {
         this.provRate = provRate;
     }
+
+
+
+
 }

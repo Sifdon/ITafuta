@@ -1,17 +1,21 @@
 package com.itafuta;
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ShareCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.view.View;
 import android.view.animation.BounceInterpolator;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -35,6 +39,7 @@ public class ServiceProviderActivity extends AppCompatActivity {
 
     private DatabaseReference mDatabase;
     ImageView finalUserImage;
+    Button btnReport;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +94,19 @@ public class ServiceProviderActivity extends AppCompatActivity {
         mDatabase.keepSynced(true);
 
 
+        btnReport = (Button) findViewById(R.id.btnReport);
+
+        btnReport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ShareCompat.IntentBuilder.from(ServiceProviderActivity.this)
+                        .setType("message/rfc822")
+                        .addEmailTo("abc@ygmail.com")
+                        .setText("This user is inappropriate")
+                        .setChooserTitle("Report user")
+                        .startChooser();
+            }
+        });
 
         finalUserImage = (ImageView) findViewById(R.id.finalProfilePhoto);
         previewStoredFirebaseImage();

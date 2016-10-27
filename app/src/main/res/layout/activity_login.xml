@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -15,9 +16,9 @@
 
         <ImageView
             android:id="@+id/img_login_logo"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:src="@drawable/logo"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:src="@drawable/logo_50"
             android:layout_centerHorizontal="true"/>
 
         <com.emmasuzuki.easyform.EasyFormEditText
@@ -63,8 +64,8 @@
             android:layout_marginTop="@dimen/activity_horizontal_margin"
             android:layout_marginBottom="@dimen/activity_horizontal_margin"
             android:layout_below="@+id/btn_login"
-            android:textAlignment="center"
-            android:text="Not account yet? CREATE ACCOUNT"
+            android:gravity="center_horizontal"
+            android:text="No account yet? CREATE ACCOUNT"
             android:textSize="16dp"
             android:textColor="@color/colorTheme"
             android:textStyle="bold"/>
@@ -76,7 +77,7 @@
             android:layout_marginTop="@dimen/activity_horizontal_margin"
             android:layout_marginBottom="@dimen/activity_horizontal_margin"
             android:layout_below="@+id/txt_tocreate_account"
-            android:textAlignment="center"
+            android:gravity="center_horizontal"
             android:text="Continue without signing in"
             android:textSize="16dp"
             android:textStyle="bold" />
