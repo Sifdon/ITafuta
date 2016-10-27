@@ -81,6 +81,10 @@ public class RegisterActivity extends AppCompatActivity {
     String base64IdFrontImage;
     String base64IdBackImage;
 
+    String base64ProfileImageOnline = "";
+    String base64IdFrontImageOnline = "";
+    String base64IdBackImageOnline = "";
+
 
     String finalUploadLocation;
     Map<String, Object> myMainData; // List of final occupations
@@ -91,10 +95,12 @@ public class RegisterActivity extends AppCompatActivity {
     int checksLimitCount;
 
     //Widgets references
+    EasyFormEditText editSignupName;
     EasyFormEditText editSignupEmail;
+    EasyFormEditText editSignupContact;
     EasyFormEditText editSignupPass;
     EasyFormEditText editSignupPassConfirm;
-    EasyFormEditText editSignupUsername;
+
 
     Button btnUploadPhoto;
     Button btnUploadIdFront;
@@ -132,6 +138,8 @@ public class RegisterActivity extends AppCompatActivity {
         Log.d(TAG, "Instantianted firebase authentication");
 
         //Reference all widgets
+        editSignupName = (EasyFormEditText) findViewById(R.id.edit_signup_name);
+        editSignupContact = (EasyFormEditText) findViewById(R.id.edit_signup_contact);
         editSignupEmail = (EasyFormEditText) findViewById(R.id.edit_signup_email);
         editSignupPass = (EasyFormEditText) findViewById(R.id.edit_password);
         editSignupPassConfirm = (EasyFormEditText) findViewById(R.id.edit_password_confirm);
@@ -173,6 +181,7 @@ public class RegisterActivity extends AppCompatActivity {
                 String itemPlace = adapterView.getSelectedItem().toString();
                 Toast.makeText(RegisterActivity.this, itemPlace, Toast.LENGTH_SHORT).show();
                 tempRef.child("location").setValue(itemPlace);
+                finalUploadLocation = itemPlace;
             }
 
             @Override
@@ -566,6 +575,7 @@ public class RegisterActivity extends AppCompatActivity {
         base64IdFrontImage = "==";
         base64IdBackImage = "**";
 
+
         if (requestCode == REQUEST_CODE_PICKER && resultCode == RESULT_OK && data != null) {
 
             images = data.getParcelableArrayListExtra(ImagePickerActivity.INTENT_EXTRA_SELECTED_IMAGES);
@@ -662,6 +672,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         //Base 64 image
         base64ProfileImage = Base64.encodeToString(bytes, Base64.DEFAULT);
+        base64ProfileImageOnline = base64ProfileImage;
         temporalImageUpload(base64ProfileImage);
         System.out.println("Stored image with length: " + bytes.length);
     }
@@ -683,6 +694,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         // we finally have our base64 string version of the image.
         base64IdFrontImage = Base64.encodeToString(bytes, Base64.DEFAULT);
+        base64IdFrontImageOnline = base64IdFrontImage;
         temporalImageUpload(base64IdFrontImage);
     }
 
@@ -701,12 +713,11 @@ public class RegisterActivity extends AppCompatActivity {
 
         // we finally have our base64 string version of the image, save it.
         base64IdBackImage = Base64.encodeToString(bytes, Base64.DEFAULT);
+        base64IdBackImageOnline = base64IdBackImage;
         temporalImageUpload(base64IdBackImage);
-
     }
 
     public void temporalImageUpload(String tempImage){
-
         if (tempImage.equals(base64ProfileImage)){
             tempRef.child("tempProfileImage").setValue(base64ProfileImage);
         }
@@ -775,9 +786,12 @@ public class RegisterActivity extends AppCompatActivity {
         */
     }
 
-
+    String fullname;
+    String contact;
     public void validate(){
         Log.d(TAG, "Validating user input for sign-up");
+        fullname = editSignupName.getText().toString();
+        contact = editSignupContact.getText().toString();
         String email = editSignupEmail.getText().toString();
         String password = editSignupPass.getText().toString();
         String passwordConfirm = editSignupPassConfirm.getText().toString();
@@ -787,7 +801,12 @@ public class RegisterActivity extends AppCompatActivity {
 
         if(email.isEmpty() || password.isEmpty() || passwordConfirm.isEmpty()){
             Toast.makeText(RegisterActivity.this, "Make sure requred fields are not empty!", Toast.LENGTH_SHORT).show();
-        }else if(!password.equals(passwordConfirm)){
+        }
+        else  if(base64IdFrontImageOnline.isEmpty() || base64IdFrontImageOnline.isEmpty() || base64IdBackImageOnline.isEmpty() ){
+            Toast.makeText(RegisterActivity.this, "Load all images!", Toast.LENGTH_SHORT).show();
+        }
+
+        else if(!password.equals(passwordConfirm)){
             Toast.makeText(RegisterActivity.this, "Password doesn't match", Toast.LENGTH_SHORT).show();
         }else{
             //Validation success
@@ -813,7 +832,6 @@ public class RegisterActivity extends AppCompatActivity {
                                 Intent goToLogin = new Intent(RegisterActivity.this, MainActivity.class);
                                 startActivity(goToLogin);
                             }
-
                         }
                     });
         }
@@ -828,15 +846,25 @@ public class RegisterActivity extends AppCompatActivity {
         Log.d(TAG, "+++++++++++");
         getThatTempData();
 
-        registrationContent.setProvImage(base64ProfileImage);
-        registrationContent.setProvIdFront(base64IdFrontImage);
-        registrationContent.setProviderIdBack(base64IdBackImage);
+        Log.d(TAG, "&&&&&&&&&&&&&&&&&&&&++++++++++++++++++++++++++++++++++++&&&&&&&&&&&&&&&&&&&&&");
+        Log.d(TAG, "&&&&&&&&&&&&&&&&&&&&++++++++++++++++++++++++++++++++++++&&&&&&&&&&&&&&&&&&&&&");
+        Log.d(TAG, "&&&&&&&&&&&&&&&&&&&&+++++++++++++++Images LOG+++++++++++++++++++++&&&&&&&&&&&&&&&&&&&&&");
+        Log.d(TAG, base64ProfileImageOnline);
+        Log.d(TAG, base64IdFrontImageOnline);
+        Log.d(TAG, base64IdBackImageOnline);
+        Log.d(TAG, "&&&&&&&&&&&&&&&&&&&&+++++++++++++++++IMAGES LOG+++++++++++++++++++&&&&&&&&&&&&&&&&&&&&&");
+        Log.d(TAG, "&&&&&&&&&&&&&&&&&&&&++++++++++++++++++++++++++++++++++++&&&&&&&&&&&&&&&&&&&&&");
+        Log.d(TAG, "&&&&&&&&&&&&&&&&&&&&++++++++++++++++++++++++++++++++++++&&&&&&&&&&&&&&&&&&&&&");
+
+        registrationContent.setProvImage(base64ProfileImageOnline);
+        registrationContent.setProvIdFront(base64IdFrontImageOnline);
+        registrationContent.setProviderIdBack(base64IdBackImageOnline);
         registrationContent.setProvLocation(finalUploadLocation);
 
         //loadingOccupations();
 
-        registrationContent.setProvOccupation(myOccupationsFinalUpload); //This is a map of occupations
-        registrationContent.setProvName("My Name");
+        registrationContent.setProvOccupation(myOccupations); //This is a map of occupations
+        registrationContent.setProvName(fullname);
         registrationContent.setProvFavCount("true");
         registrationContent.setProvRate(6);
 
@@ -856,26 +884,35 @@ public class RegisterActivity extends AppCompatActivity {
 
     public void getThatTempData(){
         Log.d(TAG, "=============Getting you temporary data=================");
+
+
+
         tempRef.addValueEventListener(new ValueEventListener() {
                                            @Override
                                            public void onDataChange(DataSnapshot dataSnapshot) {
                                                Log.d(TAG, "==============Inside Temporary data ===================");
                                                Log.d(TAG, "==============DATA SNASPSHOT Is ===" + dataSnapshot.getValue());
                                                myMainData = (Map<String, Object>) dataSnapshot.getValue();
+                                               myOccupationsFinalUpload = (Map<String, Object>) dataSnapshot.getValue();
                                                Log.d(TAG, myMainData.get("location").toString());
-                                               Log.d(TAG, "================= The above is the location =========");
-                                               //if (dataSnapshot.getKey().equals("occupation")){
+                                               Log.d(TAG, myMainData.get("tempProfileImage").toString());
+                                               Log.d(TAG, myMainData.get("tempIdFront").toString());
+                                               Log.d(TAG, myMainData.get("tempIdBack").toString());
                                                /*
-                                               for(DataSnapshot items : dataSnapshot.getChildren()){
-                                                   Log.d(TAG, "==============Looping data Temporary data ===================");
-
-                                                   myMainData = (Map<String, Object>) items.getValue(); //.java.lang.ClassCastException: java.lang.String cannot be cast to java.util.Map
-                                                   Log.d(TAG, myMainData.toString()+"=============IS ONE ITEM====================");
-                                                   finalUploadLocation= (String) myOccupationsFinalUpload.get("location");
-                                                   Toast.makeText(RegisterActivity.this, finalUploadLocation, Toast.LENGTH_SHORT).show();
-
-                                               }
+                                               registrationContent.setProvImage(base64ProfileImage);
+                                               registrationContent.setProvIdFront(base64IdFrontImage);
+                                               registrationContent.setProviderIdBack(base64IdBackImage);
+                                               registrationContent.setProvLocation(finalUploadLocation);
                                                */
+
+                                               /*
+                                               finalUploadLocation = myMainData.get("location").toString();
+                                               base64ProfileImageOnline = myMainData.get("tempProfileImage").toString();
+                                               base64IdFrontImageOnline = myMainData.get("tempIdFront").toString();
+                                               base64IdBackImageOnline = myMainData.get("tempIdBack").toString();
+                                               */
+
+                                               Log.d(TAG, "================= The above Data from your tempDta=========");
 
 
                                                /*
@@ -884,8 +921,6 @@ public class RegisterActivity extends AppCompatActivity {
                                                    //It is a list so get it wisely
                                                    loadingOccupations();
                                                }*/
-
-
                                            }
 
                                            @Override

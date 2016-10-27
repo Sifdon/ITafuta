@@ -9,6 +9,8 @@ import com.firebase.client.Firebase;
  * Created by victor on 10/14/16.
  */
 public class NatafutaApplication extends Application{
+
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -19,4 +21,6 @@ public class NatafutaApplication extends Application{
         Firebase.getDefaultConfig().setPersistenceEnabled(true);
 
     }
+
+
 }

@@ -12,8 +12,13 @@ import java.util.Map;
 public class ProviderRegistrationData{
 
 
-    private String  provImage, provIdFront, providerIdBack, provLocation, provName, provDetails, provFavCount;
+    private String  provImage, provContact, provIdFront, providerIdBack, provLocation, provName, provDetails, provFavCount;
     float provRate;
+
+
+
+
+
     Map<String, Object> provOccupation;
 
     //Empty constructor
@@ -21,8 +26,9 @@ public class ProviderRegistrationData{
     }
 
     //int, int, int, string, string, string, string, float
-    ProviderRegistrationData(String  mImage, String mIdFront, int mIdBack, Map<String, Object> mOccupation, String mLocation, String mDetails, String mName, String mFavCount, float mProvRate){
+    ProviderRegistrationData(String  mImage, String mContact, String mIdFront, int mIdBack, Map<String, Object> mOccupation, String mLocation, String mDetails, String mName, String mFavCount, float mProvRate){
         this.provImage = mImage;
+        this.provContact = mContact;
         this.provLocation = mLocation;
         this.provDetails = mDetails;
         this.provName = mName;
@@ -33,6 +39,12 @@ public class ProviderRegistrationData{
 
     public String getProvImage(){
         return provImage;
+    }
+    public String getProvContact() {
+        return provContact;
+    }
+    public void setProvContact(String provContact) {
+        this.provContact = provContact;
     }
     public String getProvIdFront() {
         return provIdFront;

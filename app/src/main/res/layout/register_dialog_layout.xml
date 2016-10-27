@@ -27,8 +27,8 @@
                 android:text="Please enter your details below"/>
 
 
-            <com.emmasuzuki.easyform.EasyTextInputLayout
-                android:id="@+id/edit_name"
+            <com.emmasuzuki.easyform.EasyFormEditText
+                android:id="@+id/edit_signup_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/txtDummy"
@@ -36,11 +36,11 @@
                 app:errorMessage="@string/error_message_empty"
                 app:errorType="empty" />
 
-            <com.emmasuzuki.easyform.EasyTextInputLayout
-                android:id="@+id/edit_contact"
+            <com.emmasuzuki.easyform.EasyFormEditText
+                android:id="@+id/edit_signup_contact"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/edit_name"
+                android:layout_below="@id/edit_signup_name"
                 android:hint="Enter Phone number"
                 app:errorMessage="Ensure its valid number"
                 app:errorType="empty"
@@ -53,7 +53,7 @@
                 android:id="@+id/edit_signup_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/edit_contact"
+                android:layout_below="@+id/edit_signup_contact"
                 android:inputType="textEmailAddress"
                 android:hint="Enter you email"/>
 
