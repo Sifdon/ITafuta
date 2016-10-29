@@ -96,6 +96,7 @@ public class MainActivity extends AppCompatActivity implements FragmentCategorie
 
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
+        getOneProvider();
 
         if(user!=null) {
             Toast.makeText(MainActivity.this, user.getEmail() + "--" +user.getUid(), Toast.LENGTH_SHORT).show();
@@ -393,6 +394,7 @@ public class MainActivity extends AppCompatActivity implements FragmentCategorie
             );
 
 
+            results.add(i, newData77);
             results.add(i, newData);
             results.add(i, newData1);
             results.add(i, newData2);
@@ -407,23 +409,38 @@ public class MainActivity extends AppCompatActivity implements FragmentCategorie
     //========================== Update atleast one value from firea =======================================
 
     ProviderData newData77;
+    String sampleUsername;
+    Map<String, Object> allProvidersMap;
+    Map<String, Object> allProvidersDataMap;
     public void getOneProvider() {
+        final DatabaseReference providerList = mDatabase.child("providers final");
 
-        mDatabase.child("providers final").addValueEventListener(new ValueEventListener() {
+        providerList.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //This give the unique key because our current location immediate children are id generated  by push
-                dataSnapshot.getKey();
+                //
 
-                for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
-                    ProviderData myTestCrazy = userSnapshot.getValue(ProviderData.class);
 
-                    newData77 = new ProviderData( R.drawable.finalimagetest1,
-                            ", Kawangware, Dagoretti, Riara",
-                            "Plumber, Electrician",
-                            "Evans Ouma",
-                            "-",
-                            100);
+                allProvidersMap = (Map<String, Object>) dataSnapshot.getValue();
+                if (allProvidersMap.containsKey("KV9iscYBP2gH3y1YHcl") && allProvidersMap.get("KV9iscYBP2gH3y1YHcl") == "FbxkB7gt3WS58ugOLD4MyaPF5MI3") {
+
+                    //Testing with James Mucheru
+                    sampleUsername = providerList.child("KV9iscYBP2gH3y1YHcl/FbxkB7gt3WS58ugOLD4MyaPF5MI3/username").getKey();
+                }
+                newData77 = new ProviderData(R.drawable.finalimagetest1,
+                        ", Kawangware, Dagoretti, Riara",
+                        "Plumber, Electrician",
+                        sampleUsername,
+                        "-",
+                        100);
+
+                //for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
+                for (Object obj : allProvidersMap.values()) { //First loop the pushed ids
+
+                        mDatabase.child("Crazy test").push().setValue(obj); //I want to write all userIds registered
+
+
                 }
             }
 
