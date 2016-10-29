@@ -5,85 +5,88 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-    <RelativeLayout
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingTop="56dp"
-        android:gravity="center_horizontal">
+        android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/img_login_logo"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:src="@drawable/logo_50"
-            android:layout_centerHorizontal="true"/>
-
-        <com.emmasuzuki.easyform.EasyFormEditText
-            android:id="@+id/edit_login_email"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/img_login_logo"
-            android:layout_marginTop="@dimen/activity_horizontal_margin"
-            android:layout_marginBottom="@dimen/activity_horizontal_margin"
-            android:hint="Enter your Email"
-            app:errorMessage="@string/error_message_empty"
-            app:errorType="empty" />
+            android:layout_height="match_parent"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingTop="56dp"
+            android:gravity="center_horizontal">
 
-        <com.emmasuzuki.easyform.EasyFormEditText
-            android:id="@+id/edit_login_password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/edit_login_email"
-            android:layout_marginTop="@dimen/activity_horizontal_margin"
-            android:layout_marginBottom="@dimen/activity_horizontal_margin"
-            android:hint="Password"
-            app:errorMessage="Password should be greater than 4 characters"
-            app:errorType="empty"
-            app:minChars="4"
-            android:inputType="textPassword"/>
+            <ImageView
+                android:id="@+id/img_login_logo"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:src="@drawable/logo_50"
+                android:layout_centerHorizontal="true"/>
 
-        <Button
-            android:id="@+id/btn_login"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/activity_horizontal_margin"
-            android:layout_marginTop="@dimen/activity_horizontal_margin"
-            android:layout_marginBottom="@dimen/activity_horizontal_margin"
-            android:layout_below="@id/edit_login_password"
-            android:background="@color/colorTheme"
-            android:text="@string/login"
-            android:textColor="@android:color/white" />
+            <com.emmasuzuki.easyform.EasyFormEditText
+                android:id="@+id/edit_login_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/img_login_logo"
+                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                android:layout_marginBottom="@dimen/activity_horizontal_margin"
+                android:hint="Enter your Email"
+                app:errorMessage="@string/error_message_empty"
+                app:errorType="empty" />
 
-        <TextView
-            android:id="@+id/txt_tocreate_account"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/activity_horizontal_margin"
-            android:layout_marginBottom="@dimen/activity_horizontal_margin"
-            android:layout_below="@+id/btn_login"
-            android:gravity="center_horizontal"
-            android:text="No account yet? CREATE ACCOUNT"
-            android:textSize="16dp"
-            android:textColor="@color/colorTheme"
-            android:textStyle="bold"/>
+            <com.emmasuzuki.easyform.EasyFormEditText
+                android:id="@+id/edit_login_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/edit_login_email"
+                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                android:layout_marginBottom="@dimen/activity_horizontal_margin"
+                android:hint="Password"
+                app:errorMessage="Password should be greater than 4 characters"
+                app:errorType="empty"
+                app:minChars="4"
+                android:inputType="textPassword"/>
 
-        <TextView
-            android:id="@+id/txt_dontLogin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/activity_horizontal_margin"
-            android:layout_marginBottom="@dimen/activity_horizontal_margin"
-            android:layout_below="@+id/txt_tocreate_account"
-            android:gravity="center_horizontal"
-            android:text="Continue without signing in"
-            android:textSize="16dp"
-            android:textStyle="bold" />
+            <Button
+                android:id="@+id/btn_login"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                android:layout_marginBottom="@dimen/activity_horizontal_margin"
+                android:layout_below="@id/edit_login_password"
+                android:background="@color/colorTheme"
+                android:text="@string/login"
+                android:textColor="@android:color/white" />
+
+            <TextView
+                android:id="@+id/txt_tocreate_account"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                android:layout_marginBottom="@dimen/activity_horizontal_margin"
+                android:layout_below="@+id/btn_login"
+                android:gravity="center_horizontal"
+                android:text="No account yet? CREATE ACCOUNT"
+                android:textSize="16dp"
+                android:textColor="@color/colorTheme"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/txt_dontLogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                android:layout_marginBottom="@dimen/activity_horizontal_margin"
+                android:layout_below="@+id/txt_tocreate_account"
+                android:gravity="center_horizontal"
+                android:text="Continue without signing in"
+                android:textSize="16dp"
+                android:textStyle="bold" />
 
 
-    </RelativeLayout>
-
+        </RelativeLayout>
+    </android.support.v4.widget.NestedScrollView>
 
 </LinearLayout>

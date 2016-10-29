@@ -42,8 +42,11 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.roughike.bottombar.BottomBar;
 //import com.roughike.bottombar.OnMenuTabClickListener;
 import com.roughike.bottombar.BottomBarTab;
@@ -106,6 +109,9 @@ public class MainActivity extends AppCompatActivity implements FragmentCategorie
 
             mDatabase.child("users").child(userId).setValue(map);
         }
+
+
+
 
 
         //My FRAGMENT
@@ -398,6 +404,41 @@ public class MainActivity extends AppCompatActivity implements FragmentCategorie
 
 
     }
+    //========================== Update atleast one value from firea =======================================
+
+    ProviderData newData77;
+    public void getOneProvider() {
+
+        mDatabase.child("providers final").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                //This give the unique key because our current location immediate children are id generated  by push
+                dataSnapshot.getKey();
+
+                for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
+                    ProviderData myTestCrazy = userSnapshot.getValue(ProviderData.class);
+
+                    newData77 = new ProviderData( R.drawable.finalimagetest1,
+                            ", Kawangware, Dagoretti, Riara",
+                            "Plumber, Electrician",
+                            "Evans Ouma",
+                            "-",
+                            100);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+    //=========================== End updating one value =========================================
+
+
+
+
+
 
     @Override
     public void onFragmentInteraction(Uri uri) {
