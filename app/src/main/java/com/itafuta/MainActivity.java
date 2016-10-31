@@ -82,7 +82,15 @@ public class MainActivity extends AppCompatActivity implements FragmentCategorie
 
     //Dummy Data
     ArrayList<ProviderData> results = new ArrayList<ProviderData> ();
+    ArrayList<ProviderData> results2 = new ArrayList<ProviderData> ();
     private DatabaseReference mDatabase;
+    private DatabaseReference providerList;
+    private DatabaseReference providerListxx;
+
+    //MyTestdata
+    ProviderData newData77;
+    String sampleUsername;
+
     FirebaseAuth mAuth;
     FirebaseUser user;
     @Override
@@ -94,9 +102,16 @@ public class MainActivity extends AppCompatActivity implements FragmentCategorie
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mDatabase.keepSynced(true);
 
+        providerList = mDatabase.child("providers final").child("KV9iscYBP2gH3y1YHcl").child("FbxkB7gt3WS58ugOLD4MyaPF5MI3").child("username");
+
+        //Toast.makeText(MainActivity.this, providerList.getKey(), Toast.LENGTH_SHORT).show();
+
+
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
-        getOneProvider();
+        //fetchMyData();
+        //Toast.makeText(MainActivity.this, sampleUsername, Toast.LENGTH_SHORT).show();
+
 
         if(user!=null) {
             Toast.makeText(MainActivity.this, user.getEmail() + "--" +user.getUid(), Toast.LENGTH_SHORT).show();
@@ -147,7 +162,8 @@ public class MainActivity extends AppCompatActivity implements FragmentCategorie
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        mAdapter = new ProviderRecycerViewAdapter(updateUi());
+        //mAdapter = new ProviderRecycerViewAdapter(updateUi()); //Updates dummy data
+        mAdapter = new ProviderRecycerViewAdapter(fetchAllProviders());
         mRecyclerView.setAdapter(mAdapter);
 
         //************************click content*********************
@@ -363,8 +379,48 @@ public class MainActivity extends AppCompatActivity implements FragmentCategorie
     //********End bottom bar navigation
 
 
-    //Method to add dummy data to our Arraylist of items
+    //Method to add test realdata to our Arraylist of items
+    //List all data
+    Map<String, Object> immediateData;
+
+    private  ArrayList<ProviderData> fetchAllProviders(){
+        mDatabase.child("providers final").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot pushedSnap) {
+                //pushedSnap give the id pushed
+                for(DataSnapshot userIdSnaps : pushedSnap.getChildren()){
+                    //userIdSnaps gives the userId registered
+                    immediateData = (Map<String, Object>) userIdSnaps.getValue(); //Get a map with the data under Ids
+
+                    //Loop the map and assign the data
+                    for(int x= 0; x<immediateData.size(); x++){
+                        //convert that data under userIdSnaps
+                        ProviderData oneProvider = userIdSnaps.getValue(ProviderData.class);
+                        results2.add(oneProvider);
+                    }
+                }
+                //get data from root of providers final //They are pushed IDs
+                //immediateData = (Map<String, Object>) dataSnapshot.getValue();//Gives a map of pushed ids
+                //+++++++++++//////////
+
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        return results2;
+    }
+
     private  ArrayList<ProviderData> updateUi(){
+        previewStoredFirebaseImage();
+
+
+
+        //sampleUsername = "###############";
 
         for (int i=0; i< 10; i++){
 
@@ -388,13 +444,13 @@ public class MainActivity extends AppCompatActivity implements FragmentCategorie
                     R.drawable.displayprofimage,
                     "Kawangware, Lavington, Karen",
                     "Plumber, Electrician",
-                    "Evans Ouma",
+                    sampleUsername,
                     "-",
                     f
             );
 
 
-            results.add(i, newData77);
+            //results.add(i, newData77);
             results.add(i, newData);
             results.add(i, newData1);
             results.add(i, newData2);
@@ -408,8 +464,50 @@ public class MainActivity extends AppCompatActivity implements FragmentCategorie
     }
     //========================== Update atleast one value from firea =======================================
 
-    ProviderData newData77;
-    String sampleUsername;
+
+    private void fetchMyData(){
+
+
+        //providerList.addValueEventListener(new ValueEventListener() {
+        mDatabase.child("mac").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                sampleUsername = (String) dataSnapshot.getValue();
+                Toast.makeText(MainActivity.this, sampleUsername + "+++++", Toast.LENGTH_SHORT).show();
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+
+    ////===========================
+    //Fetchs images and displays it
+    private void previewStoredFirebaseImage() {
+        mDatabase.child("pic").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                sampleUsername = (String) snapshot.getValue();
+                Toast.makeText(MainActivity.this, sampleUsername, Toast.LENGTH_SHORT).show();
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+//
+//            @Override
+//            public void onCancelled(FirebaseError error) {}
+        });
+    }
+
+
     Map<String, Object> allProvidersMap;
     Map<String, Object> allProvidersDataMap;
     public void getOneProvider() {
@@ -420,6 +518,11 @@ public class MainActivity extends AppCompatActivity implements FragmentCategorie
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //This give the unique key because our current location immediate children are id generated  by push
                 //
+                double a = (double)(Math.random()*5);
+                DecimalFormat  c = new DecimalFormat("#.0");
+                String last = c.format(a);
+                float f = Float.parseFloat(last);
+
 
 
                 allProvidersMap = (Map<String, Object>) dataSnapshot.getValue();
@@ -428,12 +531,13 @@ public class MainActivity extends AppCompatActivity implements FragmentCategorie
                     //Testing with James Mucheru
                     sampleUsername = providerList.child("KV9iscYBP2gH3y1YHcl/FbxkB7gt3WS58ugOLD4MyaPF5MI3/username").getKey();
                 }
-                newData77 = new ProviderData(R.drawable.finalimagetest1,
+
+                ProviderData newData73 = new ProviderData(R.drawable.finalimagetest1,
                         ", Kawangware, Dagoretti, Riara",
                         "Plumber, Electrician",
-                        sampleUsername,
+                        "Crazy thing",
                         "-",
-                        100);
+                        f);
 
                 //for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
                 for (Object obj : allProvidersMap.values()) { //First loop the pushed ids
