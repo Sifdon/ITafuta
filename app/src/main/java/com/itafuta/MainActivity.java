@@ -391,7 +391,11 @@ public class MainActivity extends AppCompatActivity implements FragmentCategorie
                 for(DataSnapshot userIdSnaps : pushedSnap.getChildren()){
                     //userIdSnaps gives the userId registered
                     //immediateData = (Map<String, Object>) userIdSnaps.getValue(); //Get a map with the data under Ids
-                    for (DataSnapshot detailsSnaps : userIdSnaps.getChildren()){
+                    for (DataSnapshot detailsSnaps : userIdSnaps.getChildren()) {
+                        //ProviderData oneProvider= new ProviderData();
+                        //Loop inside a
+                        //if (detailsSnaps.getValue() != null  && detailsSnaps.getValue().equals("occupation")){
+                        //for(DataSnapshot occupationSnap: detailsSnaps.getChildren()){
                         ProviderData oneProvider = detailsSnaps.getValue(ProviderData.class);
                         results2.add(oneProvider);
                     }

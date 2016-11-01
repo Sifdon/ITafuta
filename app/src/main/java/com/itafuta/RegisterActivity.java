@@ -879,7 +879,7 @@ public class RegisterActivity extends AppCompatActivity {
         postValues.put("rating", registrationContent.getProvRate());
 
         String uid= mAuth.getCurrentUser().getUid(); //Get the userid as at registration so that he is registered
-        mDatabase.child("providers final").child(uid).updateChildren(postValues);
+        mDatabase.child("providers final").push().child(uid).updateChildren(postValues);
 
         //Update the occupations at the same time
         // occupationsList > [specificOccupation] > key

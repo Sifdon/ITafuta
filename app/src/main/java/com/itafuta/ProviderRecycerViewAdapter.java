@@ -10,9 +10,9 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Objects;
 
 /**
  * Created by victor on 9/19/16.
@@ -95,7 +95,7 @@ public class ProviderRecycerViewAdapter
 
         //holder.providerImage.setImageResource(mDataset.get(position).getProfPhoto());
         holder.providerLocation.setText(mDataset.get(position).getLocation());
-        holder.providerDetails.setText(mDataset.get(position).getProvDetails());
+        holder.providerDetails.setText(mDataset.get(position).getOccupation().keySet().toString()); //Set this to string
         holder.providerFavCount.setText(mDataset.get(position).getProvFavCount());
         holder.providerName.setText(mDataset.get(position).getUsername());
         holder.providerRating.setRating(mDataset.get(position).getProvRate());

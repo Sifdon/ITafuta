@@ -1,12 +1,15 @@
 package com.itafuta;
 
+import java.util.Map;
+
 /**
  * Created by victor on 9/19/16.
  */
 public class ProviderData {
 
 
-    private String location, username, provDetails, provFavCount;
+    private String location, username, provFavCount;
+    Map<String, Object> occupation;
     String profPhoto;
     float provRate;
 
@@ -15,10 +18,10 @@ public class ProviderData {
     }
 
     //int, int, int, string, string, string, string, float
-    ProviderData(String  mImage, String mLocation, String mDetails, String mName, String mFavCount, float mProvRate){
+    ProviderData(String  mImage, String mLocation, Map<String, Object> mDetails, String mName, String mFavCount, float mProvRate){
         this.profPhoto = mImage;
         this.location = mLocation;
-        this.provDetails = mDetails;
+        this.occupation = mDetails;
         this.username = mName;
         this.provFavCount= mFavCount;
         this.provRate = mProvRate;
@@ -30,8 +33,8 @@ public class ProviderData {
     public String getLocation() {
         return location;
     }
-    public String getProvDetails(){
-        return provDetails;
+    public Map<String, Object> getOccupation(){
+        return occupation;
     }
     public String getProvFavCount(){
         return provFavCount;
@@ -50,8 +53,8 @@ public class ProviderData {
     public void setLocation(String provLocation) {
         this.location = provLocation;
     }
-    public void setProvDetails(String details){
-        this.provDetails = details;
+    public void setOccupation(Map<String, Object> details){
+        this.occupation = details;
     }
     public void setProvFavCount(String favCount){
         this.provFavCount = favCount;

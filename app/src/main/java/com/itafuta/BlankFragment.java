@@ -193,18 +193,9 @@ public class BlankFragment extends android.app.Fragment {
             String last = c.format(a);
             float f = Float.parseFloat(last);
 
-            ProviderData newData = new ProviderData(
-                    //image details name favcount
-
-                    R.drawable.user+"",
-                    "Kawangware, Lavington, Karen",
-                    "Plumber, Electrician",
-                    "Evans Ouma",
-                    "-",
-                    f
-            );
-
-            results.add(i, newData);
+            //ProviderData newData = new ProviderData(R.drawable.user+"", "Kawangware, Lavington, Karen", "Plumber, Electrician", "Evans Ouma", "-", f);
+//image details name favcount
+            //results.add(i, newData);
         }
         return results;
     }
