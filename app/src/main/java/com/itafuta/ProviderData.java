@@ -6,8 +6,8 @@ package com.itafuta;
 public class ProviderData {
 
 
-    private String  provLocation, provName, provDetails, provFavCount;
-    int provImage;
+    private String location, username, provDetails, provFavCount;
+    String profPhoto;
     float provRate;
 
     //Empty constructor
@@ -15,20 +15,20 @@ public class ProviderData {
     }
 
     //int, int, int, string, string, string, string, float
-    ProviderData(int  mImage, String mLocation, String mDetails, String mName, String mFavCount, float mProvRate){
-        this.provImage = mImage;
-        this.provLocation = mLocation;
+    ProviderData(String  mImage, String mLocation, String mDetails, String mName, String mFavCount, float mProvRate){
+        this.profPhoto = mImage;
+        this.location = mLocation;
         this.provDetails = mDetails;
-        this.provName = mName;
+        this.username = mName;
         this.provFavCount= mFavCount;
         this.provRate = mProvRate;
     }
 
-    public int getProvImage(){
-        return provImage;
+    public String getProfPhoto(){
+        return profPhoto;
     }
-    public String getProvLocation() {
-        return provLocation;
+    public String getLocation() {
+        return location;
     }
     public String getProvDetails(){
         return provDetails;
@@ -39,16 +39,16 @@ public class ProviderData {
     public float getProvRate() {
         return provRate;
     }
-    public String getProvName(){
-        return  provName;
+    public String getUsername(){
+        return username;
     }
 
     //SETTERS
-    public void setProvImage(int image) {
-        this.provImage = image;
+    public void setProfPhoto(String image) {
+        this.profPhoto = image;
     }
-    public void setProvLocation(String provLocation) {
-        this.provLocation = provLocation;
+    public void setLocation(String provLocation) {
+        this.location = provLocation;
     }
     public void setProvDetails(String details){
         this.provDetails = details;
@@ -56,8 +56,8 @@ public class ProviderData {
     public void setProvFavCount(String favCount){
         this.provFavCount = favCount;
     }
-    public void setProvName(String name){
-        this.provName = name;
+    public void setUsername(String name){
+        this.username = name;
     }
     public void setProvRate(float provRate) {
         this.provRate = provRate;

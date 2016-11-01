@@ -171,11 +171,11 @@ public class MainActivity extends AppCompatActivity implements FragmentCategorie
                 new ClickListener() {
                             @Override
                             public void onClick (View view,int position){
-                                ProviderData toastData = results.get(position);
+                                ProviderData toastData = results2.get(position);
                                 Toast.makeText(MainActivity.this, toastData.toString() + " CLICKED", Toast.LENGTH_SHORT).show();
                                 Intent goToSp = new Intent(MainActivity.this, ServiceProviderActivity.class);
 
-                                String userName = toastData.getProvName();
+                                String userName = toastData.getUsername();
                                 goToSp.putExtra("USER_NAME", userName);
                                 startActivity(goToSp);
                             }
@@ -390,14 +390,20 @@ public class MainActivity extends AppCompatActivity implements FragmentCategorie
                 //pushedSnap give the id pushed
                 for(DataSnapshot userIdSnaps : pushedSnap.getChildren()){
                     //userIdSnaps gives the userId registered
-                    immediateData = (Map<String, Object>) userIdSnaps.getValue(); //Get a map with the data under Ids
+                    //immediateData = (Map<String, Object>) userIdSnaps.getValue(); //Get a map with the data under Ids
+                    for (DataSnapshot detailsSnaps : userIdSnaps.getChildren()){
+                        ProviderData oneProvider = detailsSnaps.getValue(ProviderData.class);
+                        results2.add(oneProvider);
+                    }
 
                     //Loop the map and assign the data
+                    /*
                     for(int x= 0; x<immediateData.size(); x++){
                         //convert that data under userIdSnaps
                         ProviderData oneProvider = userIdSnaps.getValue(ProviderData.class);
                         results2.add(oneProvider);
                     }
+                    */
                 }
                 //get data from root of providers final //They are pushed IDs
                 //immediateData = (Map<String, Object>) dataSnapshot.getValue();//Gives a map of pushed ids
@@ -421,7 +427,7 @@ public class MainActivity extends AppCompatActivity implements FragmentCategorie
 
 
         //sampleUsername = "###############";
-
+/*
         for (int i=0; i< 10; i++){
 
             //Get random numbers and convert them to float
@@ -431,6 +437,8 @@ public class MainActivity extends AppCompatActivity implements FragmentCategorie
             float f = Float.parseFloat(last);
 
             //int, int, int, string, string, string, string, float
+
+
             ProviderData newData1 = new ProviderData( R.drawable.finalimagetest1,", Kawangware, Dagoretti, Riara",  "Plumber, Electrician", "Evans Ouma", "-", f);
             ProviderData newData2 = new ProviderData( R.drawable.image_placeholder,"Kawangware, Lavington, Karen",  "Plumber, Electrician", "Johnson", "-", f);
             ProviderData newData3 = new ProviderData( R.drawable.finalimagetest3,"Umoja, Buru Buru",  "Plumber, Electrician", "Samuel China", "-", f);
@@ -447,7 +455,9 @@ public class MainActivity extends AppCompatActivity implements FragmentCategorie
                     sampleUsername,
                     "-",
                     f
+
             );
+
 
 
             //results.add(i, newData77);
@@ -458,7 +468,9 @@ public class MainActivity extends AppCompatActivity implements FragmentCategorie
             results.add(i, newData4);
             results.add(i, newData5);
         }
+        */
         return results;
+
 
 
     }
@@ -532,12 +544,14 @@ public class MainActivity extends AppCompatActivity implements FragmentCategorie
                     sampleUsername = providerList.child("KV9iscYBP2gH3y1YHcl/FbxkB7gt3WS58ugOLD4MyaPF5MI3/username").getKey();
                 }
 
+                /*
                 ProviderData newData73 = new ProviderData(R.drawable.finalimagetest1,
                         ", Kawangware, Dagoretti, Riara",
                         "Plumber, Electrician",
                         "Crazy thing",
                         "-",
                         f);
+                        */
 
                 //for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
                 for (Object obj : allProvidersMap.values()) { //First loop the pushed ids

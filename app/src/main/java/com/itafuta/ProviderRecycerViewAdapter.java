@@ -1,6 +1,8 @@
 package com.itafuta;
 
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,11 +78,26 @@ public class ProviderRecycerViewAdapter
     // Bind the items in the arralist(mDataSet) to the ones in your card view (in the DataHolder)
     public void onBindViewHolder(DataHolder holder, int position){
 
-        holder.providerImage.setImageResource(mDataset.get(position).getProvImage());
-        holder.providerLocation.setText(mDataset.get(position).getProvLocation());
+        //byte[] imageAsBytes = Base64.decode(base64Image.getBytes(), Base64.DEFAULT);
+        //byte[] imageAsBytes = Base64.decode(mDataset.get(position).getProfPhoto(), Base64.DEFAULT);
+        /*
+        byte[] decodedString = Base64.decode(StringEscapeUtils.unescapeJson(object.getString("image")), Base64.DEFAULT);
+        mLoadedImage.setImageBitmap(
+                BitmapFactory.decodeByteArray(imageAsBytes, 0, imageAsBytes.length)
+        );
+        */
+
+
+        String image = String.valueOf(mDataset.get(position).getProfPhoto());
+        byte[] imageAsBytes = Base64.decode(image, Base64.DEFAULT);
+
+        holder.providerImage.setImageBitmap(BitmapFactory.decodeByteArray(imageAsBytes, 0, imageAsBytes.length));
+
+        //holder.providerImage.setImageResource(mDataset.get(position).getProfPhoto());
+        holder.providerLocation.setText(mDataset.get(position).getLocation());
         holder.providerDetails.setText(mDataset.get(position).getProvDetails());
         holder.providerFavCount.setText(mDataset.get(position).getProvFavCount());
-        holder.providerName.setText(mDataset.get(position).getProvName());
+        holder.providerName.setText(mDataset.get(position).getUsername());
         holder.providerRating.setRating(mDataset.get(position).getProvRate());
     }
 

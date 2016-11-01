@@ -115,7 +115,7 @@ public class BlankFragment extends android.app.Fragment {
                                 Toast.makeText(getActivity(), toastData.toString() + " CLICKED", Toast.LENGTH_SHORT).show();
                                 Intent goToSp = new Intent(getActivity(), ServiceProviderActivity.class);
 
-                                String userName = toastData.getProvName();
+                                String userName = toastData.getUsername();
                                 goToSp.putExtra("USER_NAME", userName);
                                 startActivity(goToSp);
                             }
@@ -196,7 +196,7 @@ public class BlankFragment extends android.app.Fragment {
             ProviderData newData = new ProviderData(
                     //image details name favcount
 
-                    R.drawable.user,
+                    R.drawable.user+"",
                     "Kawangware, Lavington, Karen",
                     "Plumber, Electrician",
                     "Evans Ouma",
