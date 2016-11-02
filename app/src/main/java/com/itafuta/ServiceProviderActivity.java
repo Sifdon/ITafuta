@@ -40,6 +40,7 @@ public class ServiceProviderActivity extends AppCompatActivity {
     private DatabaseReference mDatabase;
     ImageView finalUserImage;
     Button btnReport;
+    TextView txtProviderContact;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,7 +110,9 @@ public class ServiceProviderActivity extends AppCompatActivity {
         });
 
         finalUserImage = (ImageView) findViewById(R.id.finalProfilePhoto);
-        previewStoredFirebaseImage();
+        txtProviderContact = (TextView) findViewById(R.id.txtProviderContact);
+
+        //previewStoredFirebaseImage();
 
         //TextView finalUserName = (TextView) findViewById(R.id.broughtUserName);
         //TextView finalFabCount = (TextView) findViewById(R.id.broughtFavCount);
@@ -182,11 +185,25 @@ public class ServiceProviderActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Bundle extras = getIntent().getExtras();
         String userName = extras.getString("USER_NAME");
+        String profilePhoto = extras.getString("PROVIDER_PHOTO");
+        String providerUid = extras.getString("PROVIDER_UID");
+        String profileContact;
+        if(extras.getString("PROVIDER_CONTACT") != null){
+            profileContact = extras.getString("PROVIDER_CONTACT");
+            txtProviderContact.setText(profileContact);
+            getSupportActionBar().setSubtitle(profileContact);
+        }else {
+            txtProviderContact.setText("User doesn't have contact");
+            getSupportActionBar().setSubtitle("No contact!");
+        }
+        byte[] profileImageAsBytes = Base64.decode(profilePhoto.getBytes(), Base64.DEFAULT);
+        finalUserImage.setImageBitmap(BitmapFactory.decodeByteArray(profileImageAsBytes, 0, profileImageAsBytes.length));
         getSupportActionBar().setTitle(userName);
+
     }
 
     ////===========================
-    //Fetchs images and displays it
+    //Fetches images and displays it on the user profile
     private void previewStoredFirebaseImage() {
         mDatabase.child("pic").addValueEventListener(new ValueEventListener() {
             @Override

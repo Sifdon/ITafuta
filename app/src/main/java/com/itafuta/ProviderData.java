@@ -8,7 +8,7 @@ import java.util.Map;
 public class ProviderData {
 
 
-    private String location, username, provFavCount;
+    private String location, username, contact, provFavCount, userid;
     Map<String, Object> occupation;
     String profPhoto;
     float provRate;
@@ -64,5 +64,21 @@ public class ProviderData {
     }
     public void setProvRate(float provRate) {
         this.provRate = provRate;
+    }
+
+    public String getContact() {
+        return contact;
+    }
+
+    public void setContact(String contact) {
+        this.contact = contact;
+    }
+
+    public String getUserid() {
+        return userid;
+    }
+
+    public void setUserid(String userid) {
+        this.userid = userid;
     }
 }

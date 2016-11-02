@@ -174,9 +174,16 @@ public class MainActivity extends AppCompatActivity implements FragmentCategorie
                                 ProviderData toastData = results2.get(position);
                                 Toast.makeText(MainActivity.this, toastData.toString() + " CLICKED", Toast.LENGTH_SHORT).show();
                                 Intent goToSp = new Intent(MainActivity.this, ServiceProviderActivity.class);
+                                goToSp.putExtra("PROVIDER_PHOTO",toastData.getProfPhoto());
 
+                                String providerPhoto = toastData.getProfPhoto();
                                 String userName = toastData.getUsername();
+                                String providerContact = toastData.getContact();
+                                String providerUid  = toastData.getUserid();
+                                goToSp.putExtra("PROVIDER_PHOTO", providerPhoto);
+                                goToSp.putExtra("PROVIDER_UID", providerUid);
                                 goToSp.putExtra("USER_NAME", userName);
+                                goToSp.putExtra("PROVIDER_CONTACT", providerContact);
                                 startActivity(goToSp);
                             }
 
@@ -384,6 +391,7 @@ public class MainActivity extends AppCompatActivity implements FragmentCategorie
     Map<String, Object> immediateData;
 
     private  ArrayList<ProviderData> fetchAllProviders(){
+        mDatabase.child("providers final").keepSynced(true);
         mDatabase.child("providers final").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot pushedSnap) {

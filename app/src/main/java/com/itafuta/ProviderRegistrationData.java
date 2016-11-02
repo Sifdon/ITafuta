@@ -12,7 +12,7 @@ import java.util.Map;
 public class ProviderRegistrationData{
 
 
-    private String  provImage, provContact, provIdFront, providerIdBack, provLocation, provName, provDetails, provFavCount;
+    private String  provImage, provContact, provIdFront, providerIdBack, provLocation, provName, provDetails, provUid, provFavCount;
     float provRate;
 
 
@@ -101,6 +101,11 @@ public class ProviderRegistrationData{
     }
 
 
+    public String getProvUid() {
+        return provUid;
+    }
 
-
+    public void setProvUid(String provUid) {
+        this.provUid = provUid;
+    }
 }

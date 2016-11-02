@@ -60,7 +60,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:textColor="@color/green_complete"
-                    android:text="Show some love: "
+                    android:text="Add to favourites : "
                     android:textStyle="bold"/>
                 <!--<ImageButton-->
                     <!--android:id="@+id/add_friend"-->
@@ -171,15 +171,16 @@
                 android:text="Talk to me: "
                 android:textStyle="bold"
                 android:textSize="@dimen/prov_card_text_big"
-                android:layout_margin="@dimen/text_margin"/>
+                android:layout_margin="@dimen/activity_horizontal_margin1"/>
             <TextView
+                android:id="@+id/txtProviderContact"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
                 android:text="0911911911"
                 android:textColor="@color/green_complete"
                 android:textSize="@dimen/prov_card_text_big"
-                android:layout_margin="@dimen/text_margin"
+                android:layout_margin="@dimen/activity_horizontal_margin1"
                 android:textStyle="bold"/>
         </LinearLayout>
 

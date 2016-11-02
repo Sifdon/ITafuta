@@ -315,53 +315,6 @@ public class RegisterActivity extends AppCompatActivity {
         };
         */
 
-        //------------------Submit button
-
-        /*
-        Button submitBtn = (Button) findViewById(R.id.btn_submit_registration);
-        submitBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(RegisterActivity.this, "Registration submitted", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
-                //signInAnonymously();
-                mAuth.createUserWithEmailAndPassword("james@yahoo.com", "james1234")
-                        .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (!task.isSuccessful()) {
-                                    Toast.makeText(RegisterActivity.this, "Auth failed",
-                                            Toast.LENGTH_SHORT).show();
-                                }
-
-                            }
-                        });
-
-                /*
-                mAuthListener = new FirebaseAuth.AuthStateListener() {
-                    @Override
-                    public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                        FirebaseUser user = firebaseAuth.getCurrentUser();
-                        if (user != null) {
-                            // User is signed in
-                            Toast.makeText(RegisterActivity.this, user.getUid(), Toast.LENGTH_SHORT).show();
-                            //Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                        } else {
-                            // User is signed out
-                            Toast.makeText(RegisterActivity.this, "This user is still ANONYMOUS", Toast.LENGTH_SHORT).show();
-                            //Log.d(TAG, "onAuthStateChanged:signed_out");
-                        }
-                        // ...
-                    }
-                };
-
-
-
-
-            }
-        });
-        //======== end submit button
-        */
 
 
         mLoadedImage = (ImageView) findViewById(R.id.imgLoadedImage);
@@ -865,20 +818,25 @@ public class RegisterActivity extends AppCompatActivity {
 
         registrationContent.setProvOccupation(myOccupations); //This is a map of occupations
         registrationContent.setProvName(fullname);
+        registrationContent.setProvContact(contact);
         registrationContent.setProvFavCount("true");
         registrationContent.setProvRate(6);
+        String uid= mAuth.getCurrentUser().getUid(); //Get the userid as at registration so that he is registered
+        registrationContent.setProvUid(uid);
 
         Map<String, Object> postValues = new HashMap<>();
         postValues.put("profPhoto", registrationContent.getProvImage());
         postValues.put("username", registrationContent.getProvName());
+        postValues.put("contact", registrationContent.getProvName());
         postValues.put("idFront", registrationContent.getProvIdFront());
         postValues.put("idback", registrationContent.getProviderIdBack());
         postValues.put("location",  registrationContent.getProvLocation());
         postValues.put("occupation", registrationContent.getProvOccupation());
         postValues.put("favourite", registrationContent.getProvFavCount());
         postValues.put("rating", registrationContent.getProvRate());
+        postValues.put("uid", registrationContent.getProvUid());
 
-        String uid= mAuth.getCurrentUser().getUid(); //Get the userid as at registration so that he is registered
+
         mDatabase.child("providers final").push().child(uid).updateChildren(postValues);
 
         //Update the occupations at the same time

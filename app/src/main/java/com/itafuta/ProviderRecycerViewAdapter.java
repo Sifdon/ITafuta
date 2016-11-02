@@ -99,6 +99,7 @@ public class ProviderRecycerViewAdapter
         holder.providerFavCount.setText(mDataset.get(position).getProvFavCount());
         holder.providerName.setText(mDataset.get(position).getUsername());
         holder.providerRating.setRating(mDataset.get(position).getProvRate());
+        mDataset.get(position).getUserid();
     }
 
     //Method to data objects into our arraylist (mDataSet)
