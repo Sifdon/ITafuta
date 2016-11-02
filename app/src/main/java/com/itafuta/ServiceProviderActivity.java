@@ -187,11 +187,11 @@ public class ServiceProviderActivity extends AppCompatActivity {
         String userName = extras.getString("USER_NAME");
         String profilePhoto = extras.getString("PROVIDER_PHOTO");
         String providerUid = extras.getString("PROVIDER_UID");
-        String profileContact;
+        String providerContact;
         if(extras.getString("PROVIDER_CONTACT") != null){
-            profileContact = extras.getString("PROVIDER_CONTACT");
-            txtProviderContact.setText(profileContact);
-            getSupportActionBar().setSubtitle(profileContact);
+            providerContact = extras.getString("PROVIDER_CONTACT");
+            txtProviderContact.setText(providerContact);
+            getSupportActionBar().setSubtitle(providerContact);
         }else {
             txtProviderContact.setText("User doesn't have contact");
             getSupportActionBar().setSubtitle("No contact!");

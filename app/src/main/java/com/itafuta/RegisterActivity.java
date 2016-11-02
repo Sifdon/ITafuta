@@ -613,8 +613,8 @@ public class RegisterActivity extends AppCompatActivity {
     private void getProfileImage() {
         BitmapFactory.Options options = new BitmapFactory.Options();
         //options.inSampleSize = 8; // shrink it down otherwise we will use stupid amounts of memory
-        options.inSampleSize = 16; // shrink it down otherwise we will use stupid amounts of memory
-        //options.inSampleSize = 2; // This wa eaating my memory
+        //options.inSampleSize = 16; // shrink it down otherwise we will use stupid amounts of memory
+        options.inSampleSize = 2; // This wa eaating my memory
 
 
         Bitmap bitmap = BitmapFactory.decodeFile(filePath, options);
@@ -827,7 +827,7 @@ public class RegisterActivity extends AppCompatActivity {
         Map<String, Object> postValues = new HashMap<>();
         postValues.put("profPhoto", registrationContent.getProvImage());
         postValues.put("username", registrationContent.getProvName());
-        postValues.put("contact", registrationContent.getProvName());
+        postValues.put("contact", registrationContent.getProvContact());
         postValues.put("idFront", registrationContent.getProvIdFront());
         postValues.put("idback", registrationContent.getProviderIdBack());
         postValues.put("location",  registrationContent.getProvLocation());

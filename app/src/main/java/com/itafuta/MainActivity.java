@@ -180,6 +180,7 @@ public class MainActivity extends AppCompatActivity implements FragmentCategorie
                                 String userName = toastData.getUsername();
                                 String providerContact = toastData.getContact();
                                 String providerUid  = toastData.getUserid();
+
                                 goToSp.putExtra("PROVIDER_PHOTO", providerPhoto);
                                 goToSp.putExtra("PROVIDER_UID", providerUid);
                                 goToSp.putExtra("USER_NAME", userName);

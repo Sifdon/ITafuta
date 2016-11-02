@@ -26,11 +26,12 @@ public class ProviderRegistrationData{
     }
 
     //int, int, int, string, string, string, string, float
-    ProviderRegistrationData(String  mImage, String mContact, String mIdFront, int mIdBack, Map<String, Object> mOccupation, String mLocation, String mDetails, String mName, String mFavCount, float mProvRate){
+    ProviderRegistrationData(String  mImage, String mContact, String mIdFront, int mIdBack, Map<String, Object> mOccupation, String mLocation, String mDetails, String mUid, String mName, String mFavCount, float mProvRate){
         this.provImage = mImage;
         this.provContact = mContact;
         this.provLocation = mLocation;
         this.provDetails = mDetails;
+        this.provUid=mUid;
         this.provName = mName;
         this.provFavCount= mFavCount;
         this.provRate = mProvRate;
