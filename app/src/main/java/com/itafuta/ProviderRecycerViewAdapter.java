@@ -11,8 +11,6 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Objects;
 
 /**
  * Created by victor on 9/19/16.
@@ -99,7 +97,7 @@ public class ProviderRecycerViewAdapter
         holder.providerFavCount.setText(mDataset.get(position).getProvFavCount());
         holder.providerName.setText(mDataset.get(position).getUsername());
         holder.providerRating.setRating(mDataset.get(position).getProvRate());
-        mDataset.get(position).getUserid();
+        mDataset.get(position).getUid();
     }
 
     //Method to data objects into our arraylist (mDataSet)

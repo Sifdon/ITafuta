@@ -187,10 +187,13 @@ public class ServiceProviderActivity extends AppCompatActivity {
         String userName = extras.getString("USER_NAME");
         String profilePhoto = extras.getString("PROVIDER_PHOTO");
         String providerUid = extras.getString("PROVIDER_UID");
+        Toast.makeText(ServiceProviderActivity.this, "*Provider id*"+ providerUid +"**", Toast.LENGTH_SHORT).show();
+
         String providerContact;
         if(extras.getString("PROVIDER_CONTACT") != null){
             providerContact = extras.getString("PROVIDER_CONTACT");
-            txtProviderContact.setText(providerContact);
+            //txtProviderContact.setText(providerContact);
+            txtProviderContact.setText(providerUid);
             getSupportActionBar().setSubtitle(providerContact);
         }else {
             txtProviderContact.setText("User doesn't have contact");

@@ -8,7 +8,7 @@ import java.util.Map;
 public class ProviderData {
 
 
-    private String location, username, contact, provFavCount, userid;
+    private String location, username, contact, provFavCount, uid;
     Map<String, Object> occupation;
     String profPhoto;
     float provRate;
@@ -18,11 +18,12 @@ public class ProviderData {
     }
 
     //int, int, int, string, string, string, string, float
-    ProviderData(String  mImage, String mLocation, Map<String, Object> mDetails, String mName, String mFavCount, float mProvRate){
+    ProviderData(String  mImage, String mLocation, Map<String, Object> mDetails, String mName, String mFavCount, String mUserId, float mProvRate){
         this.profPhoto = mImage;
         this.location = mLocation;
         this.occupation = mDetails;
         this.username = mName;
+        this.uid = mUserId;
         this.provFavCount= mFavCount;
         this.provRate = mProvRate;
     }
@@ -74,11 +75,11 @@ public class ProviderData {
         this.contact = contact;
     }
 
-    public String getUserid() {
-        return userid;
+    public String getUid() {
+        return uid;
     }
 
-    public void setUserid(String userid) {
-        this.userid = userid;
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 }

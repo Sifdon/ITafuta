@@ -1,43 +1,24 @@
 package com.itafuta;
 
-import android.app.Dialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.ClipData;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
-import android.support.annotation.Nullable;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Layout;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -49,16 +30,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.roughike.bottombar.BottomBar;
 //import com.roughike.bottombar.OnMenuTabClickListener;
-import com.roughike.bottombar.BottomBarTab;
 import com.roughike.bottombar.OnTabReselectListener;
 import com.roughike.bottombar.OnTabSelectListener;
 
-import java.io.ByteArrayOutputStream;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 
 
 public class MainActivity extends AppCompatActivity implements FragmentCategories.OnFragmentInteractionListener {
@@ -172,14 +150,14 @@ public class MainActivity extends AppCompatActivity implements FragmentCategorie
                             @Override
                             public void onClick (View view,int position){
                                 ProviderData toastData = results2.get(position);
-                                Toast.makeText(MainActivity.this, toastData.toString() + " CLICKED", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(MainActivity.this, toastData.getUid() + " CLICKED", Toast.LENGTH_SHORT).show();
                                 Intent goToSp = new Intent(MainActivity.this, ServiceProviderActivity.class);
                                 goToSp.putExtra("PROVIDER_PHOTO",toastData.getProfPhoto());
 
                                 String providerPhoto = toastData.getProfPhoto();
                                 String userName = toastData.getUsername();
                                 String providerContact = toastData.getContact();
-                                String providerUid  = toastData.getUserid();
+                                String providerUid  = toastData.getUid();
 
                                 goToSp.putExtra("PROVIDER_PHOTO", providerPhoto);
                                 goToSp.putExtra("PROVIDER_UID", providerUid);
