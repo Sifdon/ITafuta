@@ -13,6 +13,7 @@ import android.support.v4.app.ShareCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.BounceInterpolator;
 import android.widget.Button;
@@ -35,12 +36,19 @@ import com.r0adkll.slidr.model.SlidrConfig;
 import com.r0adkll.slidr.model.SlidrListener;
 import com.r0adkll.slidr.model.SlidrPosition;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class ServiceProviderActivity extends AppCompatActivity {
+
+    private static final String TAG = "ServiceProviderActivity";
 
     private DatabaseReference mDatabase;
     ImageView finalUserImage;
     Button btnReport;
     TextView txtProviderContact;
+
+    String providerUid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,14 +130,16 @@ public class ServiceProviderActivity extends AppCompatActivity {
         mLikeButton.setOnLikeListener(new OnLikeListener() {
             @Override
             public void liked(LikeButton likeButton) {
+                favouriteProvider();
+                Log.d(TAG, "Provider has been FAVORITED by" + providerUid);
                 likeButton.setLiked(true);
-
             }
 
             @Override
             public void unLiked(LikeButton likeButton) {
+                unfavouriteProvider();
+                Log.d(TAG, "User has UNFAVOURITED the provider");
                 likeButton.setLiked(false);
-
             }
         });
 
@@ -183,10 +193,14 @@ public class ServiceProviderActivity extends AppCompatActivity {
 
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        //============== BUNDLE EXTRAS =====================
         Bundle extras = getIntent().getExtras();
         String userName = extras.getString("USER_NAME");
         String profilePhoto = extras.getString("PROVIDER_PHOTO");
-        String providerUid = extras.getString("PROVIDER_UID");
+        providerUid = extras.getString("PROVIDER_UID");
+
+        //===============END BUNDLE ETXRAS ============================
         Toast.makeText(ServiceProviderActivity.this, "*Provider id*"+ providerUid +"**", Toast.LENGTH_SHORT).show();
 
         String providerContact;
@@ -228,6 +242,56 @@ public class ServiceProviderActivity extends AppCompatActivity {
 //            public void onCancelled(FirebaseError error) {}
         });
     }
-
     ////===========================
+
+
+    //========= Adding to favourites =====================================
+    private void favouriteProvider(){
+        //Loop the user id to favourite
+        mDatabase.child("providers final").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot pushedIdSnaps) {
+                for (DataSnapshot userIdSnaps : pushedIdSnaps.getChildren()){
+                    if(userIdSnaps.hasChild(providerUid)) {
+                        Map<String, Object> fav = new HashMap<String, Object>();
+                        fav.put("favourites", "ONE FAVORITE");
+                        userIdSnaps.child((providerUid)).getRef().updateChildren(fav);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        Toast.makeText(ServiceProviderActivity.this, "Added to favourites", Toast.LENGTH_SHORT).show();
+    }
+    private void unfavouriteProvider(){
+        //Remove the item entered
+        mDatabase.child("providers final").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot pushedIdSnaps) {
+                for (DataSnapshot userIdSnaps : pushedIdSnaps.getChildren()){
+                    if(userIdSnaps.hasChild(providerUid)) {
+                        //userIdSnaps.child((providerUid)).child("favourites").getRef().removeValue();
+                        Map<String, Object> fav = new HashMap<String, Object>();
+                        fav.put("favourites", "");
+                        userIdSnaps.child((providerUid)).getRef().updateChildren(fav);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        Toast.makeText(ServiceProviderActivity.this, "Removed from favourites", Toast.LENGTH_SHORT).show();
+    }
+
+
+
+    //========= Adding to favourites =====================================
+
 }
