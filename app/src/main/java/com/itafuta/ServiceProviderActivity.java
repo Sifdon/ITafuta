@@ -132,14 +132,14 @@ public class ServiceProviderActivity extends AppCompatActivity {
             public void liked(LikeButton likeButton) {
                 favouriteProvider();
                 Log.d(TAG, "Provider has been FAVORITED by" + providerUid);
-                likeButton.setLiked(true);
+                //likeButton.setLiked(true);
             }
 
             @Override
             public void unLiked(LikeButton likeButton) {
                 unfavouriteProvider();
                 Log.d(TAG, "User has UNFAVOURITED the provider");
-                likeButton.setLiked(false);
+                //likeButton.setLiked(false);
             }
         });
 
@@ -248,17 +248,41 @@ public class ServiceProviderActivity extends AppCompatActivity {
     //========= Adding to favourites =====================================
     private void favouriteProvider(){
         //Loop the user id to favourite
-        mDatabase.child("providers final").addValueEventListener(new ValueEventListener() {
+        mDatabase.child("providers final").orderByChild(providerUid).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot pushedIdSnaps) {
-                //for (DataSnapshot userIdSnaps : pushedIdSnaps.getChildren()){
-                    if(pushedIdSnaps.hasChild(providerUid) && pushedIdSnaps.child(providerUid).child("favourites").getValue() == "") {
+                for (DataSnapshot userIdSnaps : pushedIdSnaps.getChildren()) {
+                    if (userIdSnaps.hasChild(providerUid)) {
+                        //Toast.makeText(ServiceProviderActivity.this, userIdSnaps.child("username").getValue().toString(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ServiceProviderActivity.this, "It has that item", Toast.LENGTH_SHORT).show();
+                        Map<String, Object> map = new HashMap<String, Object>();
+                        map.put("favourites", true);
+                        userIdSnaps.getRef().child(providerUid).updateChildren(map);
+                        Toast.makeText(ServiceProviderActivity.this, "Added to favourites", Toast.LENGTH_SHORT).show();
+
+                    }
+                }
+
+
+                /*
+                for (DataSnapshot userIdSnaps : pushedIdSnaps.getChildren()){
+                    if(userIdSnaps.hasChild(providerUid)){
+                        //Toast.makeText(ServiceProviderActivity.this, userIdSnaps.child("username").getValue().toString(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ServiceProviderActivity.this, "It has that item", Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(ServiceProviderActivity.this, "Not found!", Toast.LENGTH_SHORT).show();
+                    }
+
+                    /*
+                    if((pushedIdSnaps.hasChild(providerUid)) && (pushedIdSnaps.child(providerUid).child("favourites").getValue().equals(""))) {
                         Map<String, Object> fav = new HashMap<String, Object>();
                         fav.put("favourites", "ONE FAVORITE");
                         pushedIdSnaps.child(providerUid).child("favourites").getRef().setValue("ONE FAVOURITE");
                         //userIdSnaps.child((providerUid)).getRef().updateChildren(fav);
                     }
-                //}
+
+                }
+                */
             }
 
             @Override
@@ -270,19 +294,19 @@ public class ServiceProviderActivity extends AppCompatActivity {
     }
     private void unfavouriteProvider(){
         //Remove the item entered
-        mDatabase.child("providers final").addValueEventListener(new ValueEventListener() {
+        mDatabase.child("providers final").orderByChild(providerUid).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot pushedIdSnaps) {
-                //for (DataSnapshot userIdSnaps : pushedIdSnaps.getChildren()){
-                    if(pushedIdSnaps.hasChild(providerUid) && pushedIdSnaps.child(providerUid).child("favourites").getValue() == "ONE FAVORITE") {
-                        //userIdSnaps.child((providerUid)).child("favourites").getRef().removeValue();
-                        Map<String, Object> fav = new HashMap<String, Object>();
-                        fav.put("favourites", "");
-
-                        pushedIdSnaps.child(providerUid).child("favourites").getRef().setValue("");
-                        //userIdSnaps.child((providerUid)).getRef().updateChildren(fav);
+                for (DataSnapshot userIdSnaps : pushedIdSnaps.getChildren()) {
+                    if (userIdSnaps.hasChild(providerUid)) {
+                        //Toast.makeText(ServiceProviderActivity.this, userIdSnaps.child("username").getValue().toString(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ServiceProviderActivity.this, "It has that item", Toast.LENGTH_SHORT).show();
+                        Map<String, Object> map = new HashMap<String, Object>();
+                        map.put("favourites", false);
+                        userIdSnaps.getRef().child(providerUid).updateChildren(map);
+                        Toast.makeText(ServiceProviderActivity.this, "Added to favourites", Toast.LENGTH_SHORT).show();
                     }
-                //}
+                }
             }
 
             @Override

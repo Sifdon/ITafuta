@@ -83,7 +83,6 @@
                     app:dots_primary_color="@color/colorTheme"
                     app:dots_secondary_color="@color/colorPrimary"
                     app:circle_end_color="@color/colorAccent"
-                    app:liked="false"
                     app:anim_scale_factor="2"
                     app:is_enabled="true"/>
 
