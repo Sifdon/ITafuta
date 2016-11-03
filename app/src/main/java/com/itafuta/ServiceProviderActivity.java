@@ -251,13 +251,14 @@ public class ServiceProviderActivity extends AppCompatActivity {
         mDatabase.child("providers final").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot pushedIdSnaps) {
-                for (DataSnapshot userIdSnaps : pushedIdSnaps.getChildren()){
-                    if(userIdSnaps.hasChild(providerUid)) {
+                //for (DataSnapshot userIdSnaps : pushedIdSnaps.getChildren()){
+                    if(pushedIdSnaps.hasChild(providerUid) && pushedIdSnaps.child(providerUid).child("favourites").getValue() == "") {
                         Map<String, Object> fav = new HashMap<String, Object>();
                         fav.put("favourites", "ONE FAVORITE");
-                        userIdSnaps.child((providerUid)).getRef().updateChildren(fav);
+                        pushedIdSnaps.child(providerUid).child("favourites").getRef().setValue("ONE FAVOURITE");
+                        //userIdSnaps.child((providerUid)).getRef().updateChildren(fav);
                     }
-                }
+                //}
             }
 
             @Override
@@ -272,14 +273,16 @@ public class ServiceProviderActivity extends AppCompatActivity {
         mDatabase.child("providers final").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot pushedIdSnaps) {
-                for (DataSnapshot userIdSnaps : pushedIdSnaps.getChildren()){
-                    if(userIdSnaps.hasChild(providerUid)) {
+                //for (DataSnapshot userIdSnaps : pushedIdSnaps.getChildren()){
+                    if(pushedIdSnaps.hasChild(providerUid) && pushedIdSnaps.child(providerUid).child("favourites").getValue() == "ONE FAVORITE") {
                         //userIdSnaps.child((providerUid)).child("favourites").getRef().removeValue();
                         Map<String, Object> fav = new HashMap<String, Object>();
                         fav.put("favourites", "");
-                        userIdSnaps.child((providerUid)).getRef().updateChildren(fav);
+
+                        pushedIdSnaps.child(providerUid).child("favourites").getRef().setValue("");
+                        //userIdSnaps.child((providerUid)).getRef().updateChildren(fav);
                     }
-                }
+                //}
             }
 
             @Override
