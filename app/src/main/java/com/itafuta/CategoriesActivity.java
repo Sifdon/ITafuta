@@ -78,7 +78,7 @@ public class CategoriesActivity extends AppCompatActivity {
 
         float density  = getResources().getDisplayMetrics().density;
         float dpWidth  = outMetrics.widthPixels / density;
-        int columns = Math.round(dpWidth / 200);
+        int columns = Math.round(dpWidth / 500);
 //        if (dpWidth < 600) {
 //            columns = Math.round(dpWidth / 200);
 //        }else{

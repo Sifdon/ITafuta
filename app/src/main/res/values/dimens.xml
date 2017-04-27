@@ -10,6 +10,10 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="splash_text">40sp</dimen>
 
+    <dimen name="logo_login_dimen">150dp</dimen>
+
+
+
     <dimen name="prov_card_padding_top">5dp</dimen>
     <dimen name="prov_card_padding_bottom">5dp</dimen>
     <dimen name="prov_card_text_small">18sp</dimen>
@@ -18,6 +22,7 @@
     <dimen name="app_bar_height2">250dp</dimen>
 
     <dimen name="text_margin">16dp</dimen>
+    <dimen name="text_size">18sp</dimen>
 
 
 </resources>

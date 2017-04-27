@@ -27,8 +27,8 @@
                     android:id="@+id/categoryTitle"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:text="CategoryTitle"
-                    android:textSize="18sp"
+                    android:text="Selected Category"
+                    android:textSize="@dimen/text_size"
                     android:gravity="center_vertical"
                     android:layout_weight="3"/>
 

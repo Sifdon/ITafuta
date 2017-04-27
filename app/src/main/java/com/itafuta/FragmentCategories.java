@@ -201,7 +201,7 @@ public class FragmentCategories extends Fragment {
 
         float density  = getResources().getDisplayMetrics().density;
         float dpWidth  = outMetrics.widthPixels / density;
-        int columns = Math.round(dpWidth / 150);
+        int columns = Math.round(dpWidth / 300);
 //        if (dpWidth < 600) {
 //            columns = Math.round(dpWidth / 200);
 //        }else{

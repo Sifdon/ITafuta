@@ -7,5 +7,6 @@
 
     <color name="black_overlay">#66000000</color>
     <color name="provider_bg">#FFFDFD</color>
+    <color name="colorSignUpBg">#f6f698</color>
 
 </resources>
