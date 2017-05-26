@@ -11,6 +11,8 @@ import android.support.annotation.IdRes;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -19,20 +21,24 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.roughike.bottombar.BottomBar;
 //import com.roughike.bottombar.OnMenuTabClickListener;
 import com.roughike.bottombar.OnTabReselectListener;
 import com.roughike.bottombar.OnTabSelectListener;
 
+import java.security.Provider;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -53,6 +59,8 @@ public class MainActivity extends AppCompatActivity implements FragmentCategorie
 
     private BottomBar mBottomBar;  //Bottom bar
 
+    EditText editSearch;
+
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -61,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements FragmentCategorie
     //Dummy Data
     ArrayList<ProviderData> results = new ArrayList<ProviderData> ();
     ArrayList<ProviderData> results2 = new ArrayList<ProviderData> ();
+    ArrayList<ProviderData> filteredList = new ArrayList<ProviderData>();;
     private DatabaseReference mDatabase;
     private DatabaseReference providerList;
     private DatabaseReference providerListxx;
@@ -76,6 +85,8 @@ public class MainActivity extends AppCompatActivity implements FragmentCategorie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        editSearch = (EditText) findViewById(R.id.search);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mDatabase.keepSynced(true);
@@ -143,6 +154,10 @@ public class MainActivity extends AppCompatActivity implements FragmentCategorie
         //mAdapter = new ProviderRecycerViewAdapter(updateUi()); //Updates dummy data
         mAdapter = new ProviderRecycerViewAdapter(fetchAllProviders());
         mRecyclerView.setAdapter(mAdapter);
+
+        //The search functionality
+        //addTextListener();
+        searchAllProviders();
 
         //************************click content*********************
         mRecyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), mRecyclerView,
@@ -218,6 +233,7 @@ public class MainActivity extends AppCompatActivity implements FragmentCategorie
 
 
         mBottomBar = (BottomBar) findViewById(R.id.bottomBar);
+
 
         mBottomBar.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
@@ -652,5 +668,186 @@ public class MainActivity extends AppCompatActivity implements FragmentCategorie
                 return super.onOptionsItemSelected(item);
         }
     }
+
+
+    //======================== Search logic ==========================
+
+    public void addTextListener(){
+        editSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                charSequence = charSequence.toString().toLowerCase(); //Gets the text entered
+
+                filteredList = new ArrayList<>();//Filter the list
+                //loop all items in the array list
+                for (int j = 0; j < results2.size(); j++ ){
+                    final String text = results2.get(i).toString().toLowerCase();
+
+                    if(text.contains(charSequence)){
+
+                        //ProviderData(String  mImage, String mLocation, Map<String, Object> mDetails,
+                        // String mName, String mFavCount, String mUserId, float mProvRate){
+                        ProviderData newData = new ProviderData();
+                        newData.setProfPhoto(results2.get(j).getProfPhoto());
+                        newData.setLocation(results2.get(j).getLocation());
+                        newData.setOccupation(results2.get(j).getOccupation());
+                        newData.setUsername(results2.get(j).getUsername());
+                        newData.setProvFavCount(results2.get(j).getProvFavCount());
+                        newData.setUid(results2.get(j).getUid());
+                        newData.setProvRate(results2.get(j).getProvRate());
+
+                        filteredList.add(newData);
+                    }
+                }
+
+                //mLayoutManager = new LinearLayoutManager(new LinearLayoutManager(MainActivity.this));
+                mLayoutManager = new LinearLayoutManager(MainActivity.this);
+                mRecyclerView.setLayoutManager(mLayoutManager);
+
+                mAdapter = new ProviderRecycerViewAdapter(filteredList);
+                mRecyclerView.setAdapter(mAdapter);
+                mAdapter.notifyDataSetChanged();
+
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+    }
+
+    //======================== End Search logic ==========================
+
+
+
+
+    private  ArrayList<ProviderData> searchAllProviders(){
+        //mDatabase.child("providers final").keepSynced(true);
+
+        editSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                fetchAllProviders();
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                String charSequencex = charSequence.toString(); //Gets the text entered
+                Toast.makeText(MainActivity.this, charSequencex, Toast.LENGTH_SHORT).show();
+                Query mySearchRef = mDatabase.child("providers final").orderByChild("username").equalTo(charSequencex);
+
+
+
+                mySearchRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot pushedSnap) {
+                        //pushedSnap give the id pushed
+                        for (DataSnapshot userIdSnaps : pushedSnap.getChildren()) {
+                            //userIdSnaps gives the userId registered
+                            //immediateData = (Map<String, Object>) userIdSnaps.getValue(); //Get a map with the data under Ids
+                            if( userIdSnaps.hasChildren() ){
+                                for (DataSnapshot detailsSnaps : userIdSnaps.getChildren()) {
+                                    //ProviderData oneProvider= new ProviderData();
+                                    //Loop inside a
+                                    //if (detailsSnaps.getValue() != null  && detailsSnaps.getValue().equals("occupation")){
+                                    //for(DataSnapshot occupationSnap: detailsSnaps.getChildren()){
+                                    ProviderData oneProvider = detailsSnaps.getValue(ProviderData.class);
+                                    filteredList.add(oneProvider);
+                                }
+                            }
+
+                            //Loop the map and assign the data
+                    /*
+                    for(int x= 0; x<immediateData.size(); x++){
+                        //convert that data under userIdSnaps
+                        ProviderData oneProvider = userIdSnaps.getValue(ProviderData.class);
+                        results2.add(oneProvider);
+                    }
+                    */
+                        }
+                        //get data from root of providers final //They are pushed IDs
+                        //immediateData = (Map<String, Object>) dataSnapshot.getValue();//Gives a map of pushed ids
+                        //+++++++++++//////////
+                        //mLayoutManager = new LinearLayoutManager(new LinearLayoutManager(MainActivity.this));
+                        mLayoutManager = new LinearLayoutManager(MainActivity.this);
+                        mRecyclerView.setLayoutManager(mLayoutManager);
+
+                        mAdapter = new ProviderRecycerViewAdapter(filteredList);
+                        mRecyclerView.setAdapter(mAdapter);
+                        mAdapter.notifyDataSetChanged();
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+            }
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+
+        return filteredList;
+    }
+
+    /*
+    void code(){
+        //++++++++++++++++++++++++++++++++++++++++++++
+        mySearchRef.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot pushedSnap, String s) {
+                for (DataSnapshot userIdSnaps : pushedSnap.getChildren()) {
+                    //userIdSnaps gives the userId registered
+                    //immediateData = (Map<String, Object>) userIdSnaps.getValue(); //Get a map with the data under Ids
+                    if( userIdSnaps.hasChildren() ){
+                        for (DataSnapshot detailsSnaps : userIdSnaps.getChildren()) {
+                            //ProviderData oneProvider= new ProviderData();
+                            //Loop inside a
+                            //if (detailsSnaps.getValue() != null  && detailsSnaps.getValue().equals("occupation")){
+                            //for(DataSnapshot occupationSnap: detailsSnaps.getChildren()){
+                            ProviderData oneProvider = detailsSnaps.getValue(ProviderData.class);
+                            filteredList.add(oneProvider);
+                        }
+                    }
+
+                }
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        //++++++++++++++++++++++++++++++++++++++++++++
+    }
+    */
 }
 
