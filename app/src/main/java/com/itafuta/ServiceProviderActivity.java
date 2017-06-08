@@ -46,6 +46,7 @@ public class ServiceProviderActivity extends AppCompatActivity {
     private DatabaseReference mDatabase;
     ImageView finalUserImage;
     Button btnReport;
+    LikeButton mLikeButton;
     TextView txtProviderContact;
 
     String providerUid;
@@ -125,12 +126,13 @@ public class ServiceProviderActivity extends AppCompatActivity {
         //TextView finalUserName = (TextView) findViewById(R.id.broughtUserName);
         //TextView finalFabCount = (TextView) findViewById(R.id.broughtFavCount);
         final RatingBar finalRatingBar = (RatingBar) findViewById(R.id.ratingProvider);
-        LikeButton mLikeButton = (LikeButton) findViewById(R.id.btnLike);
+        mLikeButton = (LikeButton) findViewById(R.id.btnLike);
         assert mLikeButton != null;
         mLikeButton.setOnLikeListener(new OnLikeListener() {
             @Override
             public void liked(LikeButton likeButton) {
                 favouriteProvider();
+                likeButton.setLiked(true);
                 Log.d(TAG, "Provider has been FAVORITED by" + providerUid);
                 //likeButton.setLiked(true);
             }
@@ -138,6 +140,7 @@ public class ServiceProviderActivity extends AppCompatActivity {
             @Override
             public void unLiked(LikeButton likeButton) {
                 unfavouriteProvider();
+                likeButton.setLiked(false);
                 Log.d(TAG, "User has UNFAVOURITED the provider");
                 //likeButton.setLiked(false);
             }
@@ -206,8 +209,8 @@ public class ServiceProviderActivity extends AppCompatActivity {
         String providerContact;
         if(extras.getString("PROVIDER_CONTACT") != null){
             providerContact = extras.getString("PROVIDER_CONTACT");
-            //txtProviderContact.setText(providerContact);
-            txtProviderContact.setText(providerUid);
+            txtProviderContact.setText(providerContact);
+//            txtProviderContact.setText(providerUid);
             getSupportActionBar().setSubtitle(providerContact);
         }else {
             txtProviderContact.setText("User doesn't have contact");
@@ -248,10 +251,33 @@ public class ServiceProviderActivity extends AppCompatActivity {
     //========= Adding to favourites =====================================
     private void favouriteProvider(){
         //Loop the user id to favourite
-        mDatabase.child("providers final").orderByChild(providerUid).addValueEventListener(new ValueEventListener() {
+        mDatabase.child("providers final").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot pushedIdSnaps) {
-                for (DataSnapshot userIdSnaps : pushedIdSnaps.getChildren()) {
+                for (DataSnapshot mainIdSnaps : pushedIdSnaps.getChildren()) {
+                    for (DataSnapshot userIdSnaps : mainIdSnaps.getChildren()) {
+                        if (userIdSnaps.getKey().equals(providerUid)) {
+
+                            // Update only on the given providerId !!
+                            // if (userIdSnaps.child(providerUid).getKey().equals(providerUid)) {
+
+                                //userIdSnaps.getRef().child(providerUid).removeValue();
+                                userIdSnaps.getRef().child("favourites").setValue(true);
+                                // userIdSnaps.getRef().child(providerUid).child("favourites").setValue(true);
+                                Log.d(TAG, "====  YOU GOT IT IN FIREBASE ====== ");
+                                Log.d(TAG, "====  Thank you for liking us!! ====== ");
+                                break;
+                            // }
+                        }
+                        /*
+                        else {
+                            Log.d(TAG, "**** OOOPS!! WE WONT UPDATE***** ");
+                            Log.d(TAG, userIdSnaps.child(providerUid).child("favourites").getValue().toString());
+                        }
+                        */
+
+
+                    /*
                     if (userIdSnaps.hasChild(providerUid)) {
                         //Toast.makeText(ServiceProviderActivity.this, userIdSnaps.child("username").getValue().toString(), Toast.LENGTH_SHORT).show();
                         Toast.makeText(ServiceProviderActivity.this, "It has that item", Toast.LENGTH_SHORT).show();
@@ -261,7 +287,8 @@ public class ServiceProviderActivity extends AppCompatActivity {
                         Toast.makeText(ServiceProviderActivity.this, "Added to favourites", Toast.LENGTH_SHORT).show();
 
                     }
-                }
+                    */
+                    }
 
 
                 /*
@@ -283,6 +310,7 @@ public class ServiceProviderActivity extends AppCompatActivity {
 
                 }
                 */
+                }
             }
 
             @Override
@@ -294,10 +322,33 @@ public class ServiceProviderActivity extends AppCompatActivity {
     }
     private void unfavouriteProvider(){
         //Remove the item entered
-        mDatabase.child("providers final").orderByChild(providerUid).addValueEventListener(new ValueEventListener() {
+        mDatabase.child("providers final").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot pushedIdSnaps) {
-                for (DataSnapshot userIdSnaps : pushedIdSnaps.getChildren()) {
+                for (DataSnapshot mainIdSnaps : pushedIdSnaps.getChildren()) {
+                    for (DataSnapshot userIdSnaps : mainIdSnaps.getChildren()) {
+
+                        if (userIdSnaps.getKey().equals(providerUid)) {
+
+                            // Update only on the given providerId !!
+                            //if (userIdSnaps.child(providerUid).getKey().equals(providerUid)) {
+                                userIdSnaps.getRef().child(providerUid).removeValue();
+                                userIdSnaps.getRef().child("favourites").setValue(false);
+                                Log.d(TAG, "====  YOU GOT IT IN FIREBASE ====== ");
+                                Log.d(TAG, "====  UNLIKING IT FOR YOU ====== ");
+                                break;
+                            // }
+                        }
+                        /*
+                        else {
+                            Log.d(TAG, "**** OOOPS!! WE WONT UPDATE***** ");
+                            Log.d(TAG, userIdSnaps.getKey());
+                        }
+                        */
+
+
+
+                    /*
                     if (userIdSnaps.hasChild(providerUid)) {
                         //Toast.makeText(ServiceProviderActivity.this, userIdSnaps.child("username").getValue().toString(), Toast.LENGTH_SHORT).show();
                         Toast.makeText(ServiceProviderActivity.this, "It has that item", Toast.LENGTH_SHORT).show();
@@ -305,6 +356,8 @@ public class ServiceProviderActivity extends AppCompatActivity {
                         map.put("favourites", false);
                         userIdSnaps.getRef().child(providerUid).updateChildren(map);
                         Toast.makeText(ServiceProviderActivity.this, "Added to favourites", Toast.LENGTH_SHORT).show();
+                    }
+                    */
                     }
                 }
             }

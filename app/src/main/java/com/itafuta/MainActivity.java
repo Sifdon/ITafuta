@@ -149,6 +149,9 @@ public class MainActivity extends AppCompatActivity implements FragmentCategorie
                 new ClickListener() {
                             @Override
                             public void onClick (View view,int position){
+
+                                // Get an object of the selected provider  toastData
+                                // Thu
                                 ProviderData toastData = results2.get(position);
                                 Toast.makeText(MainActivity.this, toastData.getUid() + " CLICKED", Toast.LENGTH_SHORT).show();
                                 Intent goToSp = new Intent(MainActivity.this, ServiceProviderActivity.class);

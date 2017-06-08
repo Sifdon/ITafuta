@@ -9,6 +9,10 @@ public class ProviderData {
 
 
     private String location, username, contact, provFavCount, uid;
+
+
+
+
     Map<String, Object> occupation;
     String profPhoto;
     float provRate;
